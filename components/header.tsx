@@ -1,8 +1,9 @@
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { MainLogo } from './logo'
-    
+import { useSession } from "next-auth/react"
+
 function classNames(...classes:any) {
   return classes.filter(Boolean).join(' ')
 }
@@ -13,12 +14,15 @@ interface props{
 export default function HeaderBar({
   current,
   }: props) {
+  const { data: session, status } = useSession()
+  console.log(session)
   const navigation = [
     { name: 'Início', href: '/'},
     { name: 'Categorias', href: '/categorias'},
     { name: 'Sobre Nós', href: '/sobre'},
-    { name: 'Cadastre-se', href: '/cadastro'},
+    { name: 'Cadastre sua empresa', href: '/cadastro'},
   ]
+  
   return (  
     <Disclosure as="nav" className="bg-white border-b-2 border-purple-main">
       {({ open }) => (
@@ -54,19 +58,26 @@ export default function HeaderBar({
                         {item.name}
                       </a>
                     ))}
+                    {/* {user &&
+                    <a
+                    key="suasempresas"
+                    href="user/suasempresas"
+                    className={classNames(
+                      current==="suasempresas" ? 'bg-purple-main text-white' : 'text-purple-main hover:bg-purple-main hover:text-white',
+                      'px-3 py-2 rounded-md text-sm font-medium'
+                    )}
+                  >
+                    Suas Empresas
+                  </a>
+                    } */}
                   </div>
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <button
-                  type="button"
-                  className="rounded-full bg-purple-main p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-purple-main"
-                >
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
+
 
                 {/* Profile dropdown */}
+                {session?
                 <Menu as="div" className="relative ml-3">
                   <div>
                     <Menu.Button className="flex rounded-full bg-purple-main text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-purple-main">
@@ -111,7 +122,7 @@ export default function HeaderBar({
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="#"
+                            href="/api/auth/signout"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
                             Sign out
@@ -121,6 +132,16 @@ export default function HeaderBar({
                     </Menu.Items>
                   </Transition>
                 </Menu>
+                :
+                <a
+                  key="login"
+                  href="/api/auth/signin"
+
+                >
+                  Login
+                </a>
+                }
+                
               </div>
             </div>
           </div>
