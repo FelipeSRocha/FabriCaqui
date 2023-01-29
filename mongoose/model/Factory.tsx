@@ -6,7 +6,6 @@ const { Schema } = mongoose;
 const factorySchema = new Schema({
     name: {type:String, require:true},
     CNPJ: {type:String, require:true, unique: true },
-    emailUser: {type:String, require:true},
     location: {type:String, require:true},
     tags: [{name:String}],
     products: [{
