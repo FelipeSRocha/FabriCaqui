@@ -78,7 +78,6 @@ const CadastroFormPF = () =>{
 
     } 
     const handleSubmit = async () =>{
-      console.log(formValues)
       setOnloading(true)
       if(formValues.firstPass!=formValues.secondPass){
         alert("As senhas não coincidem")

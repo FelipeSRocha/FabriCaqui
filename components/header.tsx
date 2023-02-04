@@ -15,7 +15,6 @@ export default function HeaderBar({
   current,
   }: props) {
   const { data: session, status } = useSession()
-  console.log(session)
   const navigation = [
     { name: 'Início', href: '/'},
     { name: 'Categorias', href: '/categorias'},

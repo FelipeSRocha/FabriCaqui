@@ -1,6 +1,6 @@
-import CadastroFormEmpresa from "../components/forms/CadastroFormEmpresa"
-import HeaderBar from "../components/header"
-import MainBody from "../components/body/MainBody"
+import CadastroFormEmpresa from "../../components/forms/CadastroFormEmpresa"
+import HeaderBar from "../../components/header"
+import MainBody from "../../components/body/MainBody"
 
 const cadastro = () =>{
 
