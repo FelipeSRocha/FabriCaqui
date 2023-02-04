@@ -76,7 +76,7 @@ const CadastroFormEmpresa = () => {
 			setFormValues({
 				...formValues,
 				[key[0]]: {
-					...formValues[key[0]],
+					...formValues.address,
 					[key[1]]: value
 				}
 			})
