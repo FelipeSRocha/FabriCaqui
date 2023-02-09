@@ -4,7 +4,7 @@ import MainBody from "../../components/body/MainBody"
 import { useSession, signIn } from "next-auth/react"
 import { useState, useEffect } from 'react'
 
-const cadastro = () =>{
+const Cadastro = () =>{
   const { data: session, status } = useSession()
   const [ loadingPage, setLoadingPage ] = useState<Boolean>(true)
   useEffect(()=>{
@@ -16,7 +16,7 @@ const cadastro = () =>{
         }
     }
     securePage()
-  },[])
+  })
 
     return(
         <MainBody>
@@ -31,4 +31,4 @@ const cadastro = () =>{
     )
 }
 
-export default cadastro
+export default Cadastro
