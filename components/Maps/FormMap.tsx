@@ -15,7 +15,6 @@ const FormMap = ({ coordinates }: props) => {
 			? process.env.NEXT_PUBLIC_GOOGLE_API_KEY
 			: ""
 	})
-  console.log(coordinates)
 	return isLoaded ? (
 		<GoogleMap
 			mapContainerStyle={containerStyle}
