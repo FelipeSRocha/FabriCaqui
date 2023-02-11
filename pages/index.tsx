@@ -1,4 +1,4 @@
-import HeaderBar from "../components/header"
+import HeaderBar from "../components/body/header"
 import RESTAPI from "../utils/rest"
 import {useState} from 'react'
 import MainBody from "../components/body/MainBody"

@@ -56,7 +56,7 @@ const CadastroFormEmpresa = () => {
   const [changed, setChanged] = useState<boolean>(false)
   const [cepChanged, setCepChanged] = useState<boolean>(true)
   const [filledIn, setFilledIn] = useState<boolean>(false)
-  const [coordinates, setCoordinates] = useState<coordType>({
+  const [location, setLocation] = useState<coordType>({
     lat: -23.550437,
     lng: -46.633951,
   })
@@ -153,7 +153,7 @@ const CadastroFormEmpresa = () => {
     const data = await response.json()
     setFormState(3)
     setChanged(false)
-    setCoordinates(data.results[0].geometry.location)
+    setLocation(data.results[0].geometry.location)
   }
   const handleSubmit = async () => {
     setOnloading(true)
@@ -163,7 +163,9 @@ const CadastroFormEmpresa = () => {
       CNPJ,
       emailUser: session?.user?.email,
       address,
+      location: { coordinates: [location.lng, location.lat], type: "Point" },
     }
+    console.log(payload)
     const prep = {
       route: "factory/factory",
       method: "POST",
@@ -171,14 +173,19 @@ const CadastroFormEmpresa = () => {
     }
     try {
       const response = await RESTAPI(prep)
-      alert("Sua empresa foi cadastrada com sucesso!")
-      router.push("/")
+      if (response.error) {
+        alert("Tivemos um problema cadastrando sua empresa")
+      } else {
+        alert("Sua empresa foi cadastrada com sucesso!")
+        // router.push("/")
+      }
     } catch (e) {
       alert(e)
     }
 
     setOnloading(false)
   }
+
   useEffect(() => {
     if (
       formValues.factoryName != "" &&
@@ -385,9 +392,17 @@ const CadastroFormEmpresa = () => {
                 : ""
             }
           >
-            <FormMap coordinates={coordinates}></FormMap>
+            <FormMap location={location}></FormMap>
           </div>
         )}
+        <button
+          onClick={async () => {
+            const data = await RESTAPI({ route: "factory/factoryLocation", method: "GET" })
+            console.log(data)
+          }}
+        >
+          test
+        </button>
       </div>
     </div>
   )

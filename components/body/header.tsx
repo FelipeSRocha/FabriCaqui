@@ -1,7 +1,7 @@
 import { Fragment, useEffect } from "react"
 import { Disclosure, Menu, Transition } from "@headlessui/react"
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline"
-import { MainLogo } from "./logo"
+import { MainLogo } from "../Icon/logo"
 import { useSession } from "next-auth/react"
 import Link from "next/link"
 

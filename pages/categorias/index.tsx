@@ -1,4 +1,4 @@
-import HeaderBar from "../../components/header"
+import HeaderBar from "../../components/body/header"
 
 export default function Categorias() {
   return (
