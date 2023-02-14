@@ -1,6 +1,6 @@
 import React from "react"
 import { GoogleMap, useJsApiLoader, MarkerF } from "@react-google-maps/api"
-import { coordType } from "../forms/CadastroFormEmpresa"
+import { coordType } from "./MainMap"
 const containerStyle = {
 	width: "100%",
 	height: "100%"
