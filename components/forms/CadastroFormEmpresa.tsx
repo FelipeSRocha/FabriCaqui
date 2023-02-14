@@ -11,6 +11,7 @@ import { ConfirmButton } from "../button/MainButtons"
 import FormMap from "../Maps/FormMap"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/router"
+import { coordType } from "../Maps/MainMap"
 
 const cnnpj = "00.000.000/0001-00"
 
@@ -28,10 +29,7 @@ export interface formValuesType {
     uf: string
   }
 }
-export interface coordType {
-  lat: number
-  lng: number
-}
+
 
 const CadastroFormEmpresa = () => {
   const nullValues = {
@@ -395,14 +393,6 @@ const CadastroFormEmpresa = () => {
             <FormMap location={location}></FormMap>
           </div>
         )}
-        <button
-          onClick={async () => {
-            const data = await RESTAPI({ route: "factory/factoryLocation", method: "GET" })
-            console.log(data)
-          }}
-        >
-          test
-        </button>
       </div>
     </div>
   )
