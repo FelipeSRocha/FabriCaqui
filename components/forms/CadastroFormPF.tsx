@@ -59,11 +59,7 @@ const CadastroFormPF = () =>{
     const handleValidateUser = async () =>{
       if (validValues()){
         try{
-          const checkUser={
-            route:"/user/validateNewUser?email="+formValues.email, 
-            method:"GET", 
-          }
-          const valid = await RESTAPI(checkUser)
+          const valid = await RESTAPI("/user/validateNewUser?email="+formValues.email)
           if (valid){
             setPageForm(2)
           }else{
@@ -107,13 +103,8 @@ const CadastroFormPF = () =>{
           CEP,
           password:firstPass,
         }
-        const prep = {
-          route:"user/newUser",
-          method:"POST",
-          payload,
-        }
         try{
-          const valid = await RESTAPI(prep)
+          const valid = await RESTAPI("user/newUser", "POST", payload)
           alert("Usuário criado com sucesso!")
         }catch(e){
           alert("Erro ao criar usuário")

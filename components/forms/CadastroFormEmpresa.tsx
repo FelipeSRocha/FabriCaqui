@@ -163,14 +163,8 @@ const CadastroFormEmpresa = () => {
       address,
       location: { coordinates: [location.lng, location.lat], type: "Point" },
     }
-    console.log(payload)
-    const prep = {
-      route: "factory/factory",
-      method: "POST",
-      payload,
-    }
     try {
-      const response = await RESTAPI(prep)
+      const response = await RESTAPI('factory/factory', 'POST', payload)
       if (response.error) {
         alert("Tivemos um problema cadastrando sua empresa")
       } else {
@@ -180,7 +174,6 @@ const CadastroFormEmpresa = () => {
     } catch (e) {
       alert(e)
     }
-
     setOnloading(false)
   }
 
