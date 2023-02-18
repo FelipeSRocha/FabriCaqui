@@ -17,11 +17,11 @@ export default function HeaderBar({ current }: props) {
   const navigation = [
     { name: "Início", href: "/" },
     { name: "Categorias", href: "/categorias" },
+    { name: "Perfil", href: "/perfil" },
+    { name: "Cadastro", href: "/cadastro" },
     { name: "Sobre Nós", href: "/sobre" },
   ]
-  if (session) {
-    navigation.push({ name: "Cadastre sua empresa", href: "/cadastro" })
-  }
+
   return (
     <Disclosure as="nav" className="bg-white border-b-2 border-purple-main">
       {({ open }) => (

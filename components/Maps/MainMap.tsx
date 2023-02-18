@@ -24,7 +24,7 @@ const FormMap = ({ list }:props) => {
   })
 
   return isLoaded ? (
-    <GoogleMap mapContainerStyle={containerStyle} center={list[0]} zoom={15}>
+    <GoogleMap mapContainerStyle={containerStyle} center={list[0]} zoom={12}>
       {list.map((loc, index) => (
         <MarkerF position={loc} key={index} />
       ))}

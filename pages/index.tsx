@@ -6,12 +6,13 @@ import MainMap, { coordType } from "../components/Maps/MainMap"
 import MainFooter from "../components/body/MainFooter"
 import MainFilter from "../components/body/MainFilter"
 import MainGrid from "../components/body/MainGrid"
+import { useSession, getSession } from "next-auth/react"
 
 export default function Home() {
-  const [MobileState, setMobileState] = useState<Boolean>(true)
+  const session = useSession()
+  const [MobileState, setMobileState] = useState<Boolean>(false)
   const [mapContainer, setMapContainer] = useState(null)
   // const onLoad = useCallback((map) => addMarkers(map), []);
-
   const invertMobileState = () => {
     setMobileState(!MobileState)
   }
@@ -63,4 +64,13 @@ export default function Home() {
       />
     </MainBody>
   )
+}
+
+export async function getServerSideProps(context:any){
+  const session = await getSession(context)
+  return {
+    props:{
+      session
+    }
+  }
 }
