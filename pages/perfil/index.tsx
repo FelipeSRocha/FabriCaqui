@@ -1,16 +1,16 @@
-import CadastroFormPF from "../components/forms/CadastroFormPF"
-import HeaderBar from "../components/body/header"
-import MainBody from "../components/body/MainBody"
+import CadastroFormPF from "../../components/forms/CadastroFormPF"
+import HeaderBar from "../../components/body/header"
+import MainBody from "../../components/body/MainBody"
 import { useState, useMemo, useEffect } from "react"
 import { useSession, getSession } from "next-auth/react"
-import MainFilter from "../components/body/MainFilter"
-import MainGrid from "../components/body/MainGrid"
-import MainMap from "../components/Maps/MainMap"
-import { coordType } from "../components/Maps/MainMap"
-import ProfileFactorySearch from "../components/body/ProfileFactorySearch"
-import ProfileGrid from "../components/body/ProfileGrid"
-import MainFooter from "../components/body/MainFooter"
-import RESTAPI from "../utils/rest"
+import MainFilter from "../../components/body/MainFilter"
+import MainGrid from "../../components/body/MainGrid"
+import MainMap from "../../components/Maps/MainMap"
+import { coordType } from "../../components/Maps/MainMap"
+import ProfileFactorySearch from "../../components/body/ProfileFactorySearch"
+import ProfileGrid from "../../components/body/ProfileGrid"
+import MainFooter from "../../components/body/MainFooter"
+import RESTAPI from "../../utils/rest"
 import { useQuery } from "react-query"
 
 const list: coordType[] = [
@@ -46,7 +46,6 @@ const Perfil = ({ session }: any) => {
   const invertMobileState = () => {
     setMobileState(!MobileState)
   }
-  console.log(isLoading)
   return (
     <MainBody>
       <HeaderBar current="Perfil"></HeaderBar>
