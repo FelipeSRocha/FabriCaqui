@@ -3,7 +3,7 @@ import {connectToMongoDB} from "../../../utils/connectToMongoDB"
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { STATUS_CODES } from "http"
 
-const factoryByEmail = async(req: NextApiRequest, res: NextApiResponse)=>{
+const factoryByParam = async(req: NextApiRequest, res: NextApiResponse)=>{
     if(req.method==="GET"){
         await connectToMongoDB()
         try{
@@ -17,4 +17,4 @@ const factoryByEmail = async(req: NextApiRequest, res: NextApiResponse)=>{
     }
     res.status(400)
 }
-export default factoryByEmail
+export default factoryByParam
