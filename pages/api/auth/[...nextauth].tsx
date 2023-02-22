@@ -12,7 +12,7 @@ export default NextAuth({
             clientSecret: process.env.GOOGLE_CLIENT_SECRET? process.env.GOOGLE_CLIENT_SECRET: ''
           })    
     ],
-    secret: process.env.NEXT_PUBLIC_SECRET,
+    secret: process.env.NEXTAUTH_SECRET,
     callbacks:{
         async redirect({ baseUrl }) {
             return baseUrl
