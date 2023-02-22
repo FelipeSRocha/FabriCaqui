@@ -1,7 +1,7 @@
-const RESTAPI = async (route:string, method:string="GET", payload:object={}) =>{
+const RESTAPIBACK = async (route:string, method:string="GET", payload:object={}) =>{
     if(method && route && method==="GET"){
         try{
-            const response = await fetch(`/api/${route}`)
+            const response = await fetch(`${process.env.URL}/api/${route}`)
             const data = await response.json()
             return data
         }catch(e){
@@ -9,7 +9,7 @@ const RESTAPI = async (route:string, method:string="GET", payload:object={}) =>{
         }
     }else if(method && route && payload && method==="POST" || method==="PUT" || method==="DELETE" || method==="UPSERT"){
         try{
-            const response = await fetch('/api/'+route,{
+            const response = await fetch(`${process.env.URL}/api/${route}`,{
                 method,
                 body: JSON.stringify(payload),
                 headers:{
@@ -26,4 +26,4 @@ const RESTAPI = async (route:string, method:string="GET", payload:object={}) =>{
     }
 }
 
-export default RESTAPI 
+export default RESTAPIBACK 

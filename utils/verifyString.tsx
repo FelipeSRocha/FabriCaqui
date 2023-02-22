@@ -13,3 +13,7 @@ export const isValidCEP = (cep: string): boolean => {
     const cepRegex = /^[0-9]{5}-[0-9]{3}$/;
     return cepRegex.test(cep);
 }
+export const isValidCNPJ = (CNPJ: string): boolean => {
+  const cnpjRegex = /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/;
+  return cnpjRegex.test(CNPJ);
+}
