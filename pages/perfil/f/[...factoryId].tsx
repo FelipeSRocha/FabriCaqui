@@ -6,11 +6,12 @@ import HeaderBar from "../../../components/body/header"
 import EditFormEmpresa from "../../../components/forms/EditFormEmpresa"
 
 const editFactory = ({ session, factory }: any) => {
+
   return (
     <MainBody>
       <HeaderBar current="Perfil"></HeaderBar>
       <div className="flex flex-row w-full h-full">
-      <EditFormEmpresa factory={factory}/>
+        <EditFormEmpresa factory={factory} />
       </div>
     </MainBody>
   )
@@ -42,7 +43,7 @@ export async function getServerSideProps(context: any) {
   return {
     props: {
       session,
-      factory: factory[0]
+      factory: factory[0],
     },
   }
 }

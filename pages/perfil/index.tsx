@@ -59,18 +59,7 @@ const Perfil = ({ session }: any) => {
             {!isLoading && <ProfileGrid factoryByEmail={factoryByEmail} />}
           </div>
         </div>
-        {/* <div
-          className={`md:w-2/6 md:block ${
-            MobileState ? "block" : "hidden"
-          } w-screen `}
-        >
-          <MainMap list={list} />
-        </div> */}
       </div>
-      {/* <MainFooter
-        MobileState={MobileState}
-        invertMobileState={invertMobileState}
-      /> */}
     </MainBody>
   )
 }
