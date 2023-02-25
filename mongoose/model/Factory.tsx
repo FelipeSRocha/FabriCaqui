@@ -34,7 +34,7 @@ const factorySchema = new Schema({
             required: true,
         },
     },
-    tags: [{ name: String }],
+    category: [{ name: String }],
     products: [
         {
             name: { type: String, required: true },

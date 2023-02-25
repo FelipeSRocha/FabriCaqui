@@ -4,8 +4,6 @@ import type { NextApiRequest, NextApiResponse } from "next"
 import { Category } from "../../../mongoose/model/Category"
 
 const category = async (req: NextApiRequest, res: NextApiResponse) => {
-    console.log('chegou
-    ')
     if (req.method === "GET") {
         await connectToMongoDB()
         try {

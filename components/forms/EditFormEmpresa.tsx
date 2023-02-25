@@ -8,6 +8,7 @@ import { factory } from "../../utils/types/types"
 interface orch {
     Gerais: (arg0: string, arg1: string) => void
     address: (arg0: string, arg1: string) => void
+    category: (arg0: string, arg1: string) => void
 }
 const FormWrapper = ({ children }: { children: ReactNode }) => {
     return (
@@ -60,7 +61,15 @@ const FormDivider = () => {
         </div>
     )
 }
-
+const FormMultiSelect = () => {
+    return (
+        <select multiple className="w-full">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+        </select>
+    )
+}
 const EditFormEmpresa = ({ factory }: any) => {
     const [formData, setFormData] = useState<factory>(
         JSON.parse(JSON.stringify(factory))
@@ -76,6 +85,13 @@ const EditFormEmpresa = ({ factory }: any) => {
             setNewChanges(true)
         },
         address: (target, value) => {
+            let newFormData = JSON.parse(JSON.stringify(formData))
+            newFormData.address[target] = value
+            setFormData(newFormData)
+            setNewChanges(true)
+            setaddressChanges(true)
+        },
+        category: (target, value) => {
             let newFormData = JSON.parse(JSON.stringify(formData))
             newFormData.address[target] = value
             setFormData(newFormData)
@@ -98,9 +114,15 @@ const EditFormEmpresa = ({ factory }: any) => {
             >
                 {/* Tags  */}
                 <FormWrapper>
-                    <FormHeader>Tags</FormHeader>
+                    <FormHeader>Categoria</FormHeader>
                     <FormContainer>
-                        <FormLabel>Lista de Tags:</FormLabel>
+                        <FormLabel>Lista de Categorias:</FormLabel>
+                        <FormMultiSelect
+                            // onChange={(newValue) =>
+                            //     orch.Gerais("category", newValue.target.value)
+                            // }
+                            // value={formData?.general?.factoryName}
+                        ></FormMultiSelect>
                     </FormContainer>
                 </FormWrapper>
                 <FormDivider />

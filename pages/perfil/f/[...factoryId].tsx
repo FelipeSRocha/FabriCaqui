@@ -11,7 +11,7 @@ import { useEffect } from "react"
 const editFactory = ({ session, factory }: any) => {
     const { isLoading, error, data } = useQuery('category', () => RESTAPI('category/category'));
 
-    // console.log(data)
+    console.log(data)
 
     return (
         <MainBody>
