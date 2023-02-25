@@ -1,6 +1,6 @@
 export function MainLogo(){
     return(
-        <div>
+        <div className="w-full">
             <h1>FabriCaqui</h1>
         </div>
     )

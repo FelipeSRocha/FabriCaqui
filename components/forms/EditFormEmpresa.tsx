@@ -1,155 +1,279 @@
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, ReactNode, useState } from "react"
 import verifyFactoryForm from "../../utils/verifyFactoryForm"
 import DefaultButton from "../button/DefaultButton"
+import { coordType } from "../Maps/MainMap"
+import FormMap from "../Maps/FormMap"
+import { factory } from "../../utils/types/types"
 
 interface orch {
-  Gerais: (arg0: string, arg1: string) => void
-  address: (arg0: string, arg1: string) => void
+    Gerais: (arg0: string, arg1: string) => void
+    address: (arg0: string, arg1: string) => void
+}
+const FormWrapper = ({ children }: { children: ReactNode }) => {
+    return (
+        <div className="w-full px-4 shadow-gray-400 flex flex-col gap-4">
+            {children}
+        </div>
+    )
+}
+const FormHeader = ({ children }: { children: ReactNode }) => {
+    return <div className="text-xl pb-2 text-purple-main">{children}</div>
+}
+const FormContainer = ({ children }: { children: ReactNode }) => {
+    return (
+        <div className="flex flex-col md:flex-row w-full gap-2">{children}</div>
+    )
+}
+const FormLabel = ({ children }: { children: ReactNode }) => {
+    return (
+        <h2 className="text-sm w-full text-gray-600 md:w-1/4 m-auto">
+            {children}
+        </h2>
+    )
+}
+const FormInput = ({
+    onChange,
+    value,
+}: {
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+    value: string | number
+}) => {
+    return (
+        <input
+            className="text-md w-full border-2 border-gray-200 rounded-lg p-2 text-gray-600 md:w-3/4"
+            onChange={onChange}
+            value={value}
+        ></input>
+    )
+}
+const FormText = ({ children }: { children: ReactNode }) => {
+    return (
+        <p className="text-md w-full border-2 bg-gray-100 border-gray-200 rounded-lg p-2 text-gray-600 md:w-3/4">
+            {children}
+        </p>
+    )
+}
+const FormDivider = () => {
+    return (
+        <div className="px-4 py-6">
+            <div className="w-full h-[2px] bg-gray-100"></div>
+        </div>
+    )
 }
 
 const EditFormEmpresa = ({ factory }: any) => {
-  const [formData, setFormData] = useState<typeof factory>(factory)
-  const [newChanges, setNewChanges] = useState<Boolean>(false)
+    const [formData, setFormData] = useState<factory>(
+        JSON.parse(JSON.stringify(factory))
+    )
+    const [newChanges, setNewChanges] = useState<Boolean>(false)
+    const [addressChanges, setaddressChanges] = useState<Boolean>(false)
 
-
-  const orch: orch = {
-    Gerais: (target, value) => {
-      let newFormData = JSON.parse(JSON.stringify(formData))
-      newFormData = { ...newFormData, [target]: value }
-      setFormData(newFormData)
-      setNewChanges(true)
-    },
-    address: (target, value) => {
-      let newFormData = JSON.parse(JSON.stringify(formData))
-      let address = newFormData.address
-      address = { ...address, [target]: value }
-      setFormData(newFormData)
-      setNewChanges(true)
-    },
-  }
-  const handleSave = (state: (arg0: boolean) => void) => {
-    if(verifyFactoryForm(formData)){
-      state(false)
-      console.log("salvou")
-      return
+    const orch: orch = {
+        Gerais: (target, value) => {
+            let newFormData = JSON.parse(JSON.stringify(formData))
+            newFormData.general[target] = value
+            setFormData(newFormData)
+            setNewChanges(true)
+        },
+        address: (target, value) => {
+            let newFormData = JSON.parse(JSON.stringify(formData))
+            newFormData.address[target] = value
+            setFormData(newFormData)
+            setNewChanges(true)
+            setaddressChanges(true)
+        },
     }
-    alert('Dados preenchidos de forma inválida')
-  }
-  return (
-    <div className="w-full h-full overflow-scroll ">
-      <div className="max-w-5xl w-full h-fit flex flex-col lg:w-3/4 lg:left-[15%] relative gap-x-4 pb-40">
-        {/* Informações Gerais  */}
-        <div className="w-full border-x-2 border-gray-200 p-4 shadow-gray-400 flex flex-col gap-4">
-          <h1 className="text-xl border-b-2 border-purple-main pb-2">
-            Informações Gerais
-          </h1>
-          <div>
-            <h2 className="text-md">Nome da Empresa:</h2>
-            <input
-              className="text-xl border-b-2 border-gray-200 w-full"
-              onChange={(newValue) =>
-                orch.Gerais("factoryName", newValue.target.value)
-              }
-              value={formData.factoryName}
-            ></input>
-          </div>
-          <div>
-            <h2 className="text-md">CNPJ:</h2>
-            <input
-              className="text-xl border-b-2 border-gray-200 w-full"
-              value={formData.CNPJ}
-              onChange={(newValue) =>
-                orch.Gerais("CNPJ", newValue.target.value)
-              }
-            ></input>
-          </div>
+    const handleSave = (state: (arg0: boolean) => void) => {
+        if (verifyFactoryForm(formData)) {
+            state(false)
+            console.log("salvou")
+            return
+        }
+        alert("Dados preenchidos de forma inválida")
+    }
+    return (
+        <div className={`w-full overflow-scroll border-2 border-transparent`}>
+            <div
+                className={`max-w-5xl w-full h-fit flex flex-col lg:w-3/4 lg:left-[15%] relative gap-x-4 pb-40 pt-10`}
+            >
+                {/* Tags  */}
+                <FormWrapper>
+                    <FormHeader>Tags</FormHeader>
+                    <FormContainer>
+                        <FormLabel>Lista de Tags:</FormLabel>
+                    </FormContainer>
+                </FormWrapper>
+                <FormDivider />
 
-        </div>
-        <div className="w-full h-1 bg-purple-secondary" />
+                {/* Produtos  */}
+                <FormWrapper>
+                    <FormHeader>Produtos</FormHeader>
+                    <FormContainer>
+                        <FormLabel>Lista de Produtos:</FormLabel>
+                        <div className="w-full md:w-3/4"></div>
+                    </FormContainer>
+                </FormWrapper>
+                <FormDivider />
 
-        {/* Endereço  */}
-        <div className="w-full border-x-2 border-gray-200 p-4 shadow-gray-400 flex flex-col gap-4">
-          <h1 className="text-xl border-b-2 border-purple-main pb-2">
-            Endereço
-          </h1>
-          <div>
-            <h2 className="text-md">CEP:</h2>
-            <input
-              className="text-xl border-b-2 border-gray-200 w-full"
-              value={formData.address.cep}
-              onChange={(newValue) =>
-                orch.Gerais("cep", newValue.target.value)
-              }
-            ></input>
-          </div>
-          <div>
-            <h2 className="text-md">Logradouro: </h2>
-            <p className="text-xl border-b-2 border-gray-200 w-full">
-              {formData.address.logradouro}
-            </p>
-          </div>
-          <div>
-            <h2 className="text-md">Número:</h2>
-            <input
-              className="text-xl border-b-2 border-gray-200 w-full"
-              value={formData.address.numero}
-              onChange={(newValue) =>
-                orch.Gerais("numero", newValue.target.value)
-              }
-            ></input>
-          </div>
-          <div>
-            <h2 className="text-md">Bairro:</h2>
-            <p className="text-xl border-b-2 border-gray-200 w-full">
-              {formData.address.bairro}
-            </p>
-          </div>
-          <div>
-            <h2 className="text-md">Cidade/UF:</h2>
-            <p className="text-xl border-b-2 border-gray-200 w-fit">
-              {formData.address.localidade}/{formData.address.uf}
-            </p>
-          </div>
+                {/* Informações Gerais  */}
+                <FormWrapper>
+                    <FormHeader>Informações Gerais</FormHeader>
+                    <FormContainer>
+                        <FormLabel>Nome da Empresa:</FormLabel>
+                        <FormInput
+                            onChange={(newValue) =>
+                                orch.Gerais(
+                                    "factoryName",
+                                    newValue.target.value
+                                )
+                            }
+                            value={formData?.general?.factoryName}
+                        ></FormInput>
+                    </FormContainer>
+                    <FormContainer>
+                        <FormLabel>Descrição da Empresa:</FormLabel>
+                        <FormInput
+                            value={formData?.general?.description}
+                            onChange={(newValue) =>
+                                orch.Gerais(
+                                    "description",
+                                    newValue.target.value
+                                )
+                            }
+                        ></FormInput>
+                    </FormContainer>
+                    <FormContainer>
+                        <FormLabel>CNPJ:</FormLabel>
+                        <FormInput
+                            value={formData?.general?.CNPJ}
+                            onChange={(newValue) =>
+                                orch.Gerais("CNPJ", newValue.target.value)
+                            }
+                        ></FormInput>
+                    </FormContainer>
+                    <FormContainer>
+                        <FormLabel>Email de Contato:</FormLabel>
+                        <FormInput
+                            value={formData?.general?.emailContact}
+                            onChange={(newValue) =>
+                                orch.Gerais(
+                                    "emailContact",
+                                    newValue.target.value
+                                )
+                            }
+                        ></FormInput>
+                    </FormContainer>
+                    <FormContainer>
+                        <FormLabel>Telefone de Contato:</FormLabel>
+                        <FormInput
+                            value={formData?.general?.phoneContact}
+                            onChange={(newValue) =>
+                                orch.Gerais(
+                                    "phoneContact",
+                                    newValue.target.value
+                                )
+                            }
+                        ></FormInput>
+                    </FormContainer>
+                    <FormContainer>
+                        <FormLabel>Imagem:</FormLabel>
+                        <input
+                            className="text-md w-full border-2 bg-gray-100 border-gray-200 rounded-lg p-2 text-gray-600 md:w-3/4"
+                            type="file"
+                            // value={formData.general?.image}
+                            onChange={(newValue) =>
+                                orch.Gerais("image", newValue.target.value)
+                            }
+                        ></input>
+                    </FormContainer>
+                </FormWrapper>
+                <FormDivider />
 
-        </div>
-        <div className="w-full h-1 bg-purple-secondary" />
+                {/* Endereço  */}
+                <FormWrapper>
+                    <FormHeader>Endereço</FormHeader>
+                    <FormContainer>
+                        <FormLabel>CEP:</FormLabel>
+                        <FormInput
+                            value={formData.address.cep}
+                            onChange={(newValue) => {
+                                let text = newValue.target.value
+                                if (
+                                    text.length === 5 &&
+                                    formData.address.cep.length === 4
+                                ) {
+                                    text = text + "-"
+                                }
+                                if (
+                                    text.length < 10 ||
+                                    text < formData.address.cep
+                                ) {
+                                    orch.address("cep", text)
+                                }
+                            }}
+                        ></FormInput>
+                    </FormContainer>
+                    <FormContainer>
+                        <FormLabel>Logradouro: </FormLabel>
+                        <FormText>{formData.address.logradouro}</FormText>
+                    </FormContainer>
+                    <FormContainer>
+                        <FormLabel>Número:</FormLabel>
+                        <FormInput
+                            value={formData.address.numero}
+                            onChange={(newValue) =>
+                                orch.address("numero", newValue.target.value)
+                            }
+                        ></FormInput>
+                    </FormContainer>
+                    <FormContainer>
+                        <FormLabel>Bairro:</FormLabel>
+                        <FormText>{formData.address.bairro}</FormText>
+                    </FormContainer>
+                    <FormContainer>
+                        <FormLabel>Cidade/UF:</FormLabel>
+                        <FormText>
+                            {formData.address.localidade}/{formData.address.uf}
+                        </FormText>
+                    </FormContainer>
+                    {addressChanges && (
+                        <FormContainer>
+                            <DefaultButton
+                                text={"Salvar e Atualizar Localização"}
+                                onClick={() => {
+                                    handleSave(setaddressChanges)
+                                }}
+                                color={"confirm"}
+                            />
+                        </FormContainer>
+                    )}
+                    <FormContainer>
+                        <div className="w-full h-80 rounded-lg overflow-hidden">
+                            <FormMap
+                                location={{
+                                    lat: formData?.location?.coordinates[1],
+                                    lng: formData?.location?.coordinates[0],
+                                }}
+                            ></FormMap>
+                        </div>
+                    </FormContainer>
+                </FormWrapper>
+                <FormDivider />
 
-        {/* Tags  */}
-        <div className="w-full border-x-2 border-gray-200 p-4 shadow-gray-400 flex flex-col gap-4">
-          <h1 className="text-xl border-b-2 border-purple-main pb-2">Tags</h1>
-          <div>
-            <h2 className="text-md">Lista de Tags:</h2>
-            <input className="text-xl border-b-2 border-gray-200 w-full"></input>
-          </div>
-        </div>
-        <div className="w-full h-1 bg-purple-secondary" />
-
-        {/* Produtos  */}
-        <div className="w-full border-x-2 border-gray-200 p-4 shadow-gray-400 flex flex-col gap-4">
-          <h1 className="text-xl border-b-2 border-purple-main pb-2">
-            Produtos
-          </h1>
-          <div>
-            <h2 className="text-md">Lista de Produtos:</h2>
-            <input className="text-xl border-b-2 border-gray-200 w-full"></input>
-          </div>
-        </div>
-        <div className="w-full h-1 bg-purple-secondary" />
-        {newChanges && (
-          <div className="m-4 w-3/4 md:w-fit">
-
-            <DefaultButton
-              text={"Salvar Alterações"}
-              onClick={() => {
-                handleSave(setNewChanges)
-              }}
-              color={"confirm"}
-            />
+                {newChanges && (
+                    <div className="m-4 w-3/4 md:w-fit">
+                        <DefaultButton
+                            text={"Salvar Alterações"}
+                            onClick={() => {
+                                handleSave(setNewChanges)
+                            }}
+                            color={"confirm"}
+                        />
+                    </div>
+                )}
             </div>
-          )}
-      </div>
-    </div>
-  )
+        </div>
+    )
 }
 
 export default EditFormEmpresa
