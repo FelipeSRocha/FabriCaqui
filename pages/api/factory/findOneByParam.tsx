@@ -1,31 +1,34 @@
 import {Factory} from "../../../mongoose/model/Factory"
 import {closeConnection, connectToMongoDB} from "../../../utils/connectToMongoDB"
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { STATUS_CODES } from "http"
 
-const factory = async(req: NextApiRequest, res: NextApiResponse)=>{
-
-    if(req.method==="POST"){
-        const payload = req.body
+const factoryOneByParam = async(req: NextApiRequest, res: NextApiResponse)=>{
+    if(req.method==="GET"){
         await connectToMongoDB()
         try{
-            const response = await Factory.create(payload)
+            const response = await Factory.findOne(req.query)
+            console.log(response)
             res.status(200).json(response)
         }catch (e){
-            res.status(400).json(e)
+            console.log(e)
+            res.status(500)
         }
         return
     }
     if(req.method==="PUT"){
-        const payload = req.body
         await connectToMongoDB()
         try{
-            const response = await Factory.updateOne({id:payload._id}, payload)
+            const response = await Factory.findOneAndUpdate(req.query)
+            console.log(response)
             res.status(200).json(response)
         }catch (e){
-            res.status(400).json(e)
+            console.log(e)
+            res.status(500)
         }
         return
     }
+    res.status(400)
     closeConnection()
 }
-export default factory
+export default factoryOneByParam

@@ -1,5 +1,5 @@
 import { Factory } from "../../../mongoose/model/Factory"
-import { connectToMongoDB } from "../../../utils/connectToMongoDB"
+import { closeConnection, connectToMongoDB } from "../../../utils/connectToMongoDB"
 import type { NextApiRequest, NextApiResponse } from "next"
 import { Category } from "../../../mongoose/model/Category"
 
@@ -32,5 +32,6 @@ const category = async (req: NextApiRequest, res: NextApiResponse) => {
         }
         return
     }
+    closeConnection()
 }
 export default category

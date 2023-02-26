@@ -24,12 +24,12 @@ export interface factory {
     coordinates: [number,number]
   },
   category: string,
-  products: [
-    {
-      name: string
-      productTag: [{ name: string }]
-    }
-  ],
+  // products: [
+  //   {
+  //     name: string
+  //     productTag: [{ name: string }]
+  //   }
+  // ],
 }
 export interface session {
   user: {

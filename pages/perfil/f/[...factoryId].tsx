@@ -33,8 +33,8 @@ export async function getServerSideProps(context: any) {
         }
     }
     const { factoryId } = context.params
-    const factory = await RESTAPIBACK(`factory/factoryByParam?_id=${factoryId}`)
-    if (session.user?.email != factory[0].emailUser) {
+    const factory = await RESTAPIBACK(`factory/findOneByParam?_id=${factoryId}`)
+    if (session.user?.email != factory.emailUser) {
         return {
             redirect: {
                 destination: `/`,
@@ -45,7 +45,7 @@ export async function getServerSideProps(context: any) {
     return {
         props: {
             session,
-            factory: factory[0],
+            factory: factory,
         },
     }
 }

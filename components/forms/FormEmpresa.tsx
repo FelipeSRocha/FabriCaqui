@@ -8,7 +8,7 @@ import ArrowDropDownCircleIcon from "@mui/icons-material/ArrowDropDownCircle"
 import RESTAPI from "../../utils/rest"
 import { useQuery } from "react-query"
 import { isValidCEP } from "../../utils/verifyString"
-import { useRouter  } from "next/router"
+import { useRouter } from "next/router"
 
 const cnnpj = "00.000.000/0001-00"
 
@@ -16,7 +16,7 @@ interface orch {
     Gerais: (arg0: string, arg1: string) => void
     address: (arg0: string, arg1: string) => void
     category: (arg1: string) => void
-    location: (value: {lat: number, lng: number}) => void
+    location: (value: { lat: number; lng: number }) => void
 }
 interface SelectProps {
     options: string[]
@@ -90,12 +90,8 @@ const FormTextArea = ({
     )
 }
 const FormMultiSelect = ({ options, onChange, defaultValue }: SelectProps) => {
- 
-
     const [isOpen, setIsOpen] = useState(false)
-    const [selectedOption, setSelectedOption] = useState<string|null>(
-        null
-    )
+    const [selectedOption, setSelectedOption] = useState<string | null>(null)
     const handleOptionClick = (optionValue: string) => {
         setSelectedOption(optionValue)
         setIsOpen(false)
@@ -113,9 +109,7 @@ const FormMultiSelect = ({ options, onChange, defaultValue }: SelectProps) => {
                     }`}
                 />
 
-                <span>
-                    {defaultValue}
-                </span>
+                <span>{defaultValue}</span>
             </div>
             {isOpen && (
                 <div className="absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-b-md shadow-lg z-10">
@@ -135,7 +129,13 @@ const FormMultiSelect = ({ options, onChange, defaultValue }: SelectProps) => {
         </div>
     )
 }
-const FormEmpresa = ({ factory = null, session }: { factory?: factory | null, session:session }) => {
+const FormEmpresa = ({
+    factory = null,
+    session,
+}: {
+    factory?: factory | null
+    session: session
+}) => {
     const router = useRouter()
     const { data: categories } = useQuery("category", () =>
         RESTAPI("category/category")
@@ -145,15 +145,16 @@ const FormEmpresa = ({ factory = null, session }: { factory?: factory | null, se
             return {
                 general: {},
                 address: {},
-                category: {},
+                category: "",
                 location: {},
-                products: {},
-                emailUser: session.user.email
+                // products: {},
+                emailUser: session.user.email,
             }
         } else {
             return JSON.parse(JSON.stringify(factory))
         }
     })
+    const [filledIn, setfilledIn] = useState<Boolean>(false)
     const [newChanges, setNewChanges] = useState<Boolean>(false)
     const [addressChanges, setaddressChanges] = useState<Boolean>(false)
     const [cepFilled, setCepFilled] = useState<Boolean>(
@@ -171,6 +172,7 @@ const FormEmpresa = ({ factory = null, session }: { factory?: factory | null, se
               }
     )
 
+    //this object controls the values that are stored in the form
     const orch: orch = {
         Gerais: (target, value) => {
             let newFormData = JSON.parse(JSON.stringify(formData))
@@ -200,6 +202,7 @@ const FormEmpresa = ({ factory = null, session }: { factory?: factory | null, se
             }
             setFormData(newFormData)
             setNewChanges(true)
+            setaddressChanges(false)
         },
     }
 
@@ -265,19 +268,46 @@ const FormEmpresa = ({ factory = null, session }: { factory?: factory | null, se
     }
     const handleSave = async () => {
         if (verifyFactoryForm(formData)) {
-            try {
-                console.log(formData)
-                const data = await RESTAPI("factory/factory", factory===null?"POST":"PUT", formData)
-                if(!data.error && data._id){
-                    router.push(`perfil/f/${data._id}`);
+            const payload = JSON.parse(JSON.stringify(formData))
+            try{
+                if(factory === null){
+                    const data = await RESTAPI(
+                        "factory/Manager",
+                        "POST",
+                        payload
+                    )
+                    if(data._id){
+                        router.push(`/perfil`)
+                        return
+                    }
+                    alert('Não foi cadastrar sua empresa')
+
+                }else{
+                    const data = await RESTAPI(
+                        "factory/Manager",
+                        "PUT",
+                        payload
+                    )
+                    if(data._id){
+                        setNewChanges(false)
+                        alert('Dados Atualizados com sucesso')
+                        return
+                    }
+                    alert('Não foi possível atualizar suas informações')
+                    
                 }
-            } catch (e) {
+            }catch(e){
                 console.log(e)
             }
             return
         }
         alert("Dados preenchidos de forma inválida")
     }
+    useEffect(() => {
+        if (verifyFactoryForm(formData)) {
+            setfilledIn(true)
+        }
+    }, [formData])
     return (
         <div className={`w-full overflow-scroll border-2 border-transparent`}>
             <div
@@ -303,14 +333,14 @@ const FormEmpresa = ({ factory = null, session }: { factory?: factory | null, se
                         <FormDivider />
 
                         {/* Produtos  */}
-                        <FormWrapper>
+                        {/* <FormWrapper>
                             <FormHeader>Produtos</FormHeader>
                             <FormContainer>
                                 <FormLabel>Lista de Produtos:</FormLabel>
                                 <div className="w-full md:w-3/4"></div>
                             </FormContainer>
                         </FormWrapper>
-                        <FormDivider />
+                        <FormDivider /> */}
                     </>
                 )}
 
@@ -479,13 +509,19 @@ const FormEmpresa = ({ factory = null, session }: { factory?: factory | null, se
                     )}
                 </FormWrapper>
                 <FormDivider />
-                <FormWrapper>
-                    <DefaultButton
-                        text={factory===null? "Cadastrar Empresa!" : "Atualizar Dados"}
-                        onClick={handleSave}
-                        color={"confirm"}
-                    ></DefaultButton>
-                </FormWrapper>
+                {newChanges && filledIn && !addressChanges && (
+                    <FormWrapper>
+                        <DefaultButton
+                            text={
+                                factory === null
+                                    ? "Cadastrar Empresa!"
+                                    : "Atualizar Dados"
+                            }
+                            onClick={handleSave}
+                            color={"confirm"}
+                        ></DefaultButton>
+                    </FormWrapper>
+                )}
             </div>
         </div>
     )

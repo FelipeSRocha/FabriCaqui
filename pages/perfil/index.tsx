@@ -40,7 +40,7 @@ const Perfil = ({ session }: any) => {
     error,
     data: factoryByEmail,
   } = useQuery("user", () => {
-    return RESTAPI(`factory/factoryByParam?email=${session?.user?.email}`)
+    return RESTAPI(`factory/findManyByParam?email=${session?.user?.email}`)
   })
 
   const invertMobileState = () => {
