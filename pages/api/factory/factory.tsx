@@ -1,8 +1,8 @@
 import {Factory} from "../../../mongoose/model/Factory"
-import {connectToMongoDB} from "../../../utils/connectToMongoDB"
+import {closeConnection, connectToMongoDB} from "../../../utils/connectToMongoDB"
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-const addFactory = async(req: NextApiRequest, res: NextApiResponse)=>{
+const factory = async(req: NextApiRequest, res: NextApiResponse)=>{
 
     if(req.method==="POST"){
         const payload = req.body
@@ -26,5 +26,6 @@ const addFactory = async(req: NextApiRequest, res: NextApiResponse)=>{
         }
         return
     }
+    closeConnection()
 }
-export default addFactory
+export default factory

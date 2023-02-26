@@ -1,5 +1,5 @@
 import {Factory} from "../../../mongoose/model/Factory"
-import {connectToMongoDB} from "../../../utils/connectToMongoDB"
+import {closeConnection, connectToMongoDB} from "../../../utils/connectToMongoDB"
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 const FactoryLocation = async(req: NextApiRequest, res: NextApiResponse)=>{
@@ -17,5 +17,6 @@ const FactoryLocation = async(req: NextApiRequest, res: NextApiResponse)=>{
         }
      })
     res.status(200).json(data)
+    closeConnection()
 }
 export default FactoryLocation
