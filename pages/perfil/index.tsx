@@ -9,7 +9,7 @@ import MainMap from "../../components/Maps/MainMap"
 import { coordType } from "../../components/Maps/MainMap"
 import ProfileFactorySearch from "../../components/body/ProfileFactorySearch"
 import ProfileGrid from "../../components/body/ProfileGrid"
-import MainFooter from "../../components/body/MainFooter"
+import MainFooter from "../../components/body/MapFooter"
 import RESTAPI from "../../utils/rest"
 import { useQuery } from "react-query"
 

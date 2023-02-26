@@ -16,10 +16,10 @@ export default function HeaderBar({ current }: props) {
   const { data: session, status } = useSession()
   const navigation = [
     { name: "Início", href: "/" },
-    { name: "Categorias", href: "/categorias" },
+    { name: "Procurar", href: "/procurar" },
     { name: "Perfil", href: "/perfil" },
     { name: "Cadastro", href: "/cadastro" },
-    { name: "Sobre Nós", href: "/sobre" },
+    // { name: "Sobre Nós", href: "/sobre" },
   ]
 
   return (
@@ -27,7 +27,7 @@ export default function HeaderBar({ current }: props) {
       {({ open }) => (
         <>
           <div className="mx-auto  px-2 sm:px-6 lg:px-8 ">
-            <div className="relative flex h-16 items-center justify-between">
+            <div className="relative flex h-20 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
                 <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-purple-main hover:bg-purple-main hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
@@ -40,10 +40,10 @@ export default function HeaderBar({ current }: props) {
                 </Disclosure.Button>
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                <div className="flex flex-shrink-0 items-center">
+                <div className="flex flex-shrink-0 items-center w-[15%] ">
                   <MainLogo />
                 </div>
-                <div className="hidden sm:ml-6 sm:block">
+                <div className="hidden sm:ml-6  sm:flex items-center">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
                       <Link
@@ -51,9 +51,9 @@ export default function HeaderBar({ current }: props) {
                         href={item.href}
                         className={classNames(
                           current === item.name
-                            ? "bg-purple-main text-white"
+                            ? "bg-purple-main text-white font-bold"
                             : "text-purple-main hover:bg-purple-main hover:text-white",
-                          "px-3 py-2 rounded-md text-sm font-medium"
+                          "px-6 py-2 rounded-md text-xl  h-12 flex items-center"
                         )}
                       >
                         {item.name}

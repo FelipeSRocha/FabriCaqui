@@ -3,7 +3,7 @@ interface props {
     invertMobileState: React.Dispatch<React.SetStateAction<Boolean>>
 }
 
-const MainFooter = ({MobileState, invertMobileState}:props) => {
+const MapFooter = ({MobileState, invertMobileState}:props) => {
   console.log()
   return (
     <div className="w-full md:w-4/12 px-4 mx-auto text-center md:hidden h-20 flex items-center absolute bottom-0">
@@ -26,4 +26,4 @@ const MainFooter = ({MobileState, invertMobileState}:props) => {
     </div>
   )
 }
-export default MainFooter
+export default MapFooter
