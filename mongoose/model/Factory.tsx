@@ -4,10 +4,10 @@ import { ObjectId } from "mongodb"
 const { Schema } = mongoose
 
 const factorySchema = new Schema({
+    emailUser: { type: String, require: true },
     general: {
         factoryName: { type: String, require: true },
         CNPJ: { type: String, require: true, unique: true },
-        emailUser: { type: String, require: true },
         phoneContact: { type: String, require: true },
         description: { type: String },
         image: { type: Buffer },
@@ -34,11 +34,11 @@ const factorySchema = new Schema({
             required: true,
         },
     },
-    category: [{ name: String }],
+    category: {type:String},
     products: [
         {
-            name: { type: String, required: true },
-            idProduct: { type: ObjectId, require: true },
+            name: { type: String },
+            idProduct: { type: ObjectId},
             productTag: [{ name: String }],
         },
     ],

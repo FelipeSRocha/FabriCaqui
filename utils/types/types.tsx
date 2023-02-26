@@ -23,11 +23,20 @@ export interface factory {
     type: string
     coordinates: [number,number]
   },
-  tags: [{ name: string }],
+  category: string,
   products: [
     {
       name: string
       productTag: [{ name: string }]
     }
   ],
+}
+export interface session {
+  user: {
+    id: string;
+    username: string;
+    email: string;
+    role: string;
+    [key: string]: string;
+  };
 }

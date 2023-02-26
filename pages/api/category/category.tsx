@@ -8,7 +8,8 @@ const category = async (req: NextApiRequest, res: NextApiResponse) => {
         await connectToMongoDB()
         try {
             const response = await Category.find()
-            res.status(200).json(response)
+            const data = response.map(res => res.name)
+            res.status(200).json(data)
         } catch (e) {
             res.status(400).json(e)
         }

@@ -18,7 +18,7 @@ const FullGrid = ({ factory }: any) => {
         <div className="w-full min-h-fit flex flex-col justify-between">
           <div>
             <div className="text-sm">Empresa:</div>
-            <div className="text-lg">{factory.factoryName}</div>
+            <div className="text-lg">{factory.general.factoryName}</div>
           </div>
 
           <div className="flex w-full flex-col">

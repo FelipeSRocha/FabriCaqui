@@ -3,21 +3,18 @@ import { useSession, getSession } from "next-auth/react"
 import RESTAPIBACK from "../../../utils/restBack"
 import MainBody from "../../../components/body/MainBody"
 import HeaderBar from "../../../components/body/header"
-import EditFormEmpresa from "../../../components/forms/EditFormEmpresa"
+import FormEmpresa from "../../../components/forms/FormEmpresa"
 import { useQuery } from "react-query"
 import RESTAPI from "../../../utils/rest"
 import { useEffect } from "react"
+import { factory, session } from "../../../utils/types/types"
 
-const editFactory = ({ session, factory }: any) => {
-    const { isLoading, error, data } = useQuery('category', () => RESTAPI('category/category'));
-
-    console.log(data)
-
+const editFactory = ({ session, factory }: {session: session, factory: factory}) => {
     return (
         <MainBody>
             <HeaderBar current="Perfil"></HeaderBar>
             <div className="flex flex-row w-full h-full">
-                <EditFormEmpresa factory={factory} />
+                <FormEmpresa factory={factory} session={session}/>
             </div>
         </MainBody>
     )
@@ -37,7 +34,6 @@ export async function getServerSideProps(context: any) {
     }
     const { factoryId } = context.params
     const factory = await RESTAPIBACK(`factory/factoryByParam?_id=${factoryId}`)
-
     if (session.user?.email != factory[0].emailUser) {
         return {
             redirect: {
