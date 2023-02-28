@@ -13,7 +13,7 @@ const DefaultButton = ({ text, color, isLoading = false, onClick }: Props) => {
 
   switch (color) {
     case "confirm":
-      backgroundColor = "bg-green-500"
+      backgroundColor = "bg-green-main"
       hoverBackgroundColor = "hover:bg-green-600"
       break
     case "negar":
@@ -21,8 +21,8 @@ const DefaultButton = ({ text, color, isLoading = false, onClick }: Props) => {
       hoverBackgroundColor = "hover:bg-red-600"
       break
     case "informacao":
-      backgroundColor = "bg-blue-500"
-      hoverBackgroundColor = "hover:bg-blue-600"
+      backgroundColor = "bg-orange-main"
+      hoverBackgroundColor = "hover:bg-orange-600"
       break
     default:
       break

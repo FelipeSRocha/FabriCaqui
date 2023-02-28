@@ -27,7 +27,7 @@ export default function Categorias() {
     ]
     return (
         <MainBody>
-            <HeaderBar current="Categorias"></HeaderBar>
+            <HeaderBar current="Procurar"></HeaderBar>
             <div className="flex flex-row w-full h-full">
                 <div
                     className={`md:w-3/5 md:pl-4 md:block ${

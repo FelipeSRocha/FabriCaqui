@@ -410,7 +410,7 @@ const FormEmpresa = ({
                             }
                         ></FormInput>
                     </FormContainer>
-                    <FormContainer>
+                    {/* <FormContainer>
                         <FormLabel>Imagem:</FormLabel>
                         <input
                             className="text-md w-full border-2 bg-gray-100 border-gray-200 rounded-lg p-2 text-gray-600 md:w-3/4"
@@ -420,7 +420,7 @@ const FormEmpresa = ({
                                 orch.Gerais("image", newValue.target.value)
                             }
                         ></input>
-                    </FormContainer>
+                    </FormContainer> */}
                 </FormWrapper>
                 <FormDivider />
 

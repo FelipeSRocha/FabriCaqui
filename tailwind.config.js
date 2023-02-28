@@ -20,6 +20,9 @@ module.exports = {
         "green":{
           main: "#2CC47F",
           secondary: "#0CB360"
+        },
+        orange:{
+          main: "#FFAA00"
         }
       },
     }
