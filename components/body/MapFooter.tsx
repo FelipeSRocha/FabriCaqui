@@ -4,9 +4,8 @@ interface props {
 }
 
 const MapFooter = ({MobileState, invertMobileState}:props) => {
-  console.log()
   return (
-    <div className="w-full md:w-4/12 px-4 mx-auto text-center md:hidden h-20 flex items-center absolute bottom-0">
+    <div className="w-full lg:w-4/12 px-4 mx-auto text-center lg:hidden h-20 flex items-center absolute bottom-0 bg-transparent">
       <div className="w-full text-sm text-blueGray-500 font-semibold py-1 flex justify-around">
         <div
           className="button w-40 h-10 bg-white cursor-pointer select-none

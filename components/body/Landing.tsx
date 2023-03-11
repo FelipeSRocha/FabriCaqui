@@ -6,11 +6,13 @@ import PlaceIcon from "@mui/icons-material/Place"
 import LabelIcon from "@mui/icons-material/Label"
 import StraightenIcon from "@mui/icons-material/Straighten"
 import DefaultButton from "../button/DefaultButton"
+import { useRouter } from "next/router"
 
 interface SelectProps {
     options: string[]
     onChange: (value: string) => void
     defaultValue?: string | null
+    isLoading: boolean,
 }
 interface orch {
     city: (arg0: string) => void
@@ -21,7 +23,12 @@ interface RangeProps {
     onChange: (value: string) => void
     defaultValue: number
 }
-const FormMultiSelect = ({ options, onChange, defaultValue }: SelectProps) => {
+export interface SearchFilter {
+    city: string,
+    distance: number,
+    category: null|string,
+}
+const FormMultiSelect = ({ options, onChange, defaultValue, isLoading }: SelectProps) => {
     const [isOpen, setIsOpen] = useState(false)
     const [selectedOption, setSelectedOption] = useState<string | null>(null)
     const handleOptionClick = (optionValue: string) => {
@@ -29,11 +36,11 @@ const FormMultiSelect = ({ options, onChange, defaultValue }: SelectProps) => {
         setIsOpen(false)
         onChange(optionValue)
     }
-    if (!options) {
+    if (isLoading||!options.length) {
         return <h1>Carregando...</h1>
     }
     return (
-        <div className="text-md w-full border-2 border-gray-200 rounded-lg p-2 text-purple-main relative text-xl">
+        <div className="text-md w-full border-2 border-gray-200 rounded-lg p-2 text-purple-main relative text-xl cursor-pointer">
             <div onClick={() => setIsOpen(!isOpen)}>
                 <ArrowDropDownCircleIcon
                     className={`h-5 w-5 mr-2 ${
@@ -100,11 +107,13 @@ const FormLabel = ({ children }: { children: ReactNode }) => {
     )
 }
 const Landing = () => {
-    const { data: categories } = useQuery("category", () =>
+    const router = useRouter()
+    const { data: categories=[], isLoading: isLoadingCategories } = useQuery("category", () =>
         RESTAPI("category/category")
     )
-    const [searchState, setSearchState] = useState({
-        city: "",
+
+    const [searchState, setSearchState] = useState<SearchFilter>({
+        city: 'São Paulo',
         distance: 100,
         category: null,
     })
@@ -126,78 +135,88 @@ const Landing = () => {
             setSearchState(newSearchState)
         },
     }
-    const handleSearch = () =>{
-        console.log(searchState)
+    const handleSearch = () => {
+        router.push({
+            pathname: "/procurar",
+            query: {
+                city: searchState.city,
+                category: searchState.category,
+                distance: searchState.distance,
+            },
+        })
     }
     return (
-        <div className="w-full bg-purple-secondary flex-1 ">
-            <div className="w-full mt-10 p-4 h-fit md:p-10 flex flex-col md:w-[500px] bg-white md:left-[15%] relative">
-                <div className="w-full flex flex-col items-center ">
-                    <h1 className="mb-4 text-3xl md:text-5xl text-purple-main font-medium">
-                        Ache agora seu fornecedor!
-                    </h1>
-                    <div className="my-2 w-full">
-                        <div className="my-2 flex flex-row">
-                            <span className="mr-2">
-                                <LabelIcon sx={{ color: "#FFAA00" }} />
-                            </span>
-                            <FormLabel>
-                                Escolha a Categoria
-                            </FormLabel>
+        <div className=" overflow-y-scroll overflow-x-hidden flex-1">
+            <div className="w-full bg-purple-secondary py-20">
+                <div className="w-full  p-4 h-fit md:p-10 flex flex-col md:w-[500px] bg-white md:left-[15%] relative">
+                    <div className="w-full flex flex-col items-center ">
+                        <h1 className="mb-4 text-3xl md:text-5xl text-purple-main font-medium">
+                            Ache agora seu fornecedor!
+                        </h1>
+                        <div className="my-2 w-full">
+                            <div className="my-2 flex flex-row">
+                                <span className="mr-2">
+                                    <LabelIcon sx={{ color: "#FFAA00" }} />
+                                </span>
+                                <FormLabel>Escolha a Categoria</FormLabel>
+                            </div>
+                            <FormMultiSelect
+                                options={categories}
+                                isLoading={isLoadingCategories}
+                                onChange={(newValue) => orch.category(newValue)}
+                                defaultValue={searchState.category}
+                            />
                         </div>
-                        <FormMultiSelect
-                            options={categories}
-                            onChange={(newValue) => orch.category(newValue)}
-                            defaultValue={searchState.category}
-                        />
-                    </div>
-                    <div className="my-2 w-full">
-                        <div className="my-2 flex flex-row">
-                            <span className="mr-2">
-                                <PlaceIcon sx={{ color: "#FFAA00" }} />
-                            </span>
-                            <FormLabel>
-                                Digite a cidade que deseja procurar
-                            </FormLabel>
-                        </div>
+                        <div className="my-2 w-full">
+                            <div className="my-2 flex flex-row">
+                                <span className="mr-2">
+                                    <PlaceIcon sx={{ color: "#FFAA00" }} />
+                                </span>
+                                <FormLabel>
+                                    Digite a cidade que deseja procurar
+                                </FormLabel>
+                            </div>
 
-                        <FormInput
-                            value={searchState.city}
-                            onChange={(newValue) =>
-                                orch.city(newValue.target.value)
-                            }
-                        ></FormInput>
-                    </div>
-                    <div className="my-2 w-full">
-                        <div className="my-2 flex flex-row">
-                            <span className="mr-2">
-                                <StraightenIcon sx={{ color: "#FFAA00" }} />
-                            </span>
-                            <FormLabel>
-                                Escolha a Distância:{" "}
-                                <div className="font-medium text-xl">
-                                    {searchState.distance}
-                                </div>
-                                km
-                            </FormLabel>
+                            <FormInput
+                                value={searchState.city}
+                                onChange={(newValue) =>
+                                    orch.city(newValue.target.value)
+                                }
+                            ></FormInput>
                         </div>
-                        <FormRange
-                            onChange={orch.distance}
-                            defaultValue={searchState.distance}
-                        />
+                        <div className="my-2 w-full">
+                            <div className="my-2 flex flex-row">
+                                <span className="mr-2">
+                                    <StraightenIcon sx={{ color: "#FFAA00" }} />
+                                </span>
+                                <FormLabel>
+                                    Escolha a Distância:{" "}
+                                    <div className="font-medium text-xl">
+                                        {searchState.distance}
+                                    </div>
+                                    km
+                                </FormLabel>
+                            </div>
+                            <FormRange
+                                onChange={orch.distance}
+                                defaultValue={searchState.distance}
+                            />
+                        </div>
                     </div>
-                </div>
-                <div className="mt-5">
-                    <DefaultButton
-                        text={"Procurar!"}
-                        color={"confirm"}
-                        onClick={handleSearch}
-                    ></DefaultButton>
+                    <div className="mt-5">
+                        <DefaultButton
+                            text={"Procurar!"}
+                            color={"confirm"}
+                            onClick={handleSearch}
+                        ></DefaultButton>
+                    </div>
                 </div>
             </div>
-            {/* <div className="my-10  p-4 text-3xl text-white">
-                O lugar para você achar seus fornecedores!
-            </div> */}
+            <div className="w-full h-1/2 bg-white py-20">
+                <div className="my-10 md:left-[15%] text-3xl text-purple-main relative">
+                    O lugar para você achar seus fornecedores!
+                </div>
+            </div>
         </div>
     )
 }

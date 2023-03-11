@@ -5,11 +5,11 @@ function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ")
 }
 
-const FullGrid = ({ factory }: any) => {
+const SquareGrid = ({ factory }: any) => {
   return (
-    <div className="flex w-full h-90 relative p-4 shadow-lg border-purple-secondary border-2 ">
+    <div className="flex items-center justify-center w-full min-w-[220px] max-w-[500px] h-[300px] p-4 border-purple-main border-[1px] cursor-pointer" onClick={()=>console.log(factory)}>
       <div className="flex flex-col md:flex-row w-full h-full gap-4">
-        {/* TODO, Implement image
+        {/* TODO
         <div className="w-full h-1/2 md:w-80 md:h-full">
           <div className="w-full h-full min-h-min border-black border-2">
             <div className="h-40">image</div>
@@ -32,12 +32,9 @@ const FullGrid = ({ factory }: any) => {
             </p>
           </div>
         </div>
-        <div className=" bg-purple-main p-4 rounded-xl">
-          <Link className={classNames("w-full h-full text-white flex items-center justify-center")} href={`/perfil/f/${factory._id}`}><p>Editar</p></Link>
-        </div>
       </div>
     </div>
   )
 }
 
-export default FullGrid
+export default SquareGrid

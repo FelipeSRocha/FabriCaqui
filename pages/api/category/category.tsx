@@ -11,7 +11,10 @@ const category = async (req: NextApiRequest, res: NextApiResponse) => {
             const data = response.map(res => res.name)
             res.status(200).json(data)
         } catch (e) {
+            console.log(e)
             res.status(400).json(e)
+        }finally{
+            closeConnection()
         }
         return
     }
@@ -32,6 +35,5 @@ const category = async (req: NextApiRequest, res: NextApiResponse) => {
         }
         return
     }
-    closeConnection()
 }
 export default category

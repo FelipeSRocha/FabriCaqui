@@ -129,6 +129,9 @@ const FormMultiSelect = ({ options, onChange, defaultValue }: SelectProps) => {
         </div>
     )
 }
+const DeletePopup = () => {
+    return <div></div>
+}
 const FormEmpresa = ({
     factory = null,
     session,
@@ -171,7 +174,7 @@ const FormEmpresa = ({
                   lng: -46.633951,
               }
     )
-
+    const [deleteState, setDeleteState] = useState<Boolean>(false)
     //this object controls the values that are stored in the form
     const orch: orch = {
         Gerais: (target, value) => {
@@ -269,39 +272,51 @@ const FormEmpresa = ({
     const handleSave = async () => {
         if (verifyFactoryForm(formData)) {
             const payload = JSON.parse(JSON.stringify(formData))
-            try{
-                if(factory === null){
+            try {
+                if (factory === null) {
                     const data = await RESTAPI(
                         "factory/Manager",
                         "POST",
                         payload
                     )
-                    if(data._id){
+                    if (data._id) {
                         router.push(`/perfil`)
                         return
                     }
-                    alert('Não foi cadastrar sua empresa')
-
-                }else{
+                    alert("Não foi cadastrar sua empresa")
+                } else {
                     const data = await RESTAPI(
                         "factory/Manager",
                         "PUT",
                         payload
                     )
-                    if(data._id){
+                    if (data._id) {
                         setNewChanges(false)
-                        alert('Dados Atualizados com sucesso')
+                        alert("Dados Atualizados com sucesso")
                         return
                     }
-                    alert('Não foi possível atualizar suas informações')
-                    
+                    alert("Não foi possível atualizar suas informações")
                 }
-            }catch(e){
+            } catch (e) {
                 console.log(e)
             }
             return
         }
         alert("Dados preenchidos de forma inválida")
+    }
+    const handleDelete = async () => {
+        if (
+            confirm(
+                "Você deseja deletar o registro da empresa em nosso site? Essa ação não pode ser desfeita"
+            ) == true
+        ) {
+            const payload = JSON.parse(JSON.stringify(formData))
+            const response = await RESTAPI("factory/Manager", "DELETE", payload)
+            if (response.deletedCount === 1) {
+                router.push("/perfil")
+                alert("Registro Deletado")
+            }
+        }
     }
     useEffect(() => {
         if (verifyFactoryForm(formData)) {
@@ -310,6 +325,7 @@ const FormEmpresa = ({
     }, [formData])
     return (
         <div className={`w-full overflow-scroll border-2 border-transparent`}>
+            <DeletePopup></DeletePopup>
             <div
                 className={`max-w-5xl w-full h-fit flex flex-col lg:w-3/4 lg:left-[15%] relative gap-x-4 pb-40 pt-10`}
             >
@@ -509,19 +525,34 @@ const FormEmpresa = ({
                     )}
                 </FormWrapper>
                 <FormDivider />
-                {newChanges && filledIn && !addressChanges && (
-                    <FormWrapper>
-                        <DefaultButton
-                            text={
-                                factory === null
-                                    ? "Cadastrar Empresa!"
-                                    : "Atualizar Dados"
-                            }
-                            onClick={handleSave}
-                            color={"confirm"}
-                        ></DefaultButton>
-                    </FormWrapper>
-                )}
+                <div className="flex flex-row gap-4">
+                    {factory != null && (
+                        <div className="w-1/2">
+                            <FormWrapper>
+                                <DefaultButton
+                                    text={"Deletar Empresa"}
+                                    onClick={handleDelete}
+                                    color={"negar"}
+                                ></DefaultButton>
+                            </FormWrapper>
+                        </div>
+                    )}
+                    {newChanges && filledIn && !addressChanges && (
+                        <div className="w-1/2">
+                            <FormWrapper>
+                                <DefaultButton
+                                    text={
+                                        factory === null
+                                            ? "Cadastrar Empresa!"
+                                            : "Atualizar Dados"
+                                    }
+                                    onClick={handleSave}
+                                    color={"confirm"}
+                                ></DefaultButton>
+                            </FormWrapper>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     )

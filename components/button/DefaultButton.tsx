@@ -1,13 +1,14 @@
-import React from "react"
+import React, { ReactNode } from "react"
 
 interface Props {
   text: string
   color: "confirm" | "negar" | "informacao"
   isLoading?: boolean
-  onClick?: () => void
+  onClick?: () => void,
+  children?: ReactNode 
 }
 
-const DefaultButton = ({ text, color, isLoading = false, onClick }: Props) => {
+const DefaultButton = ({ text, color, isLoading = false, onClick, children }: Props) => {
   let backgroundColor = "bg-blue-500"
   let hoverBackgroundColor = "hover:bg-blue-600"
 
@@ -35,10 +36,11 @@ const DefaultButton = ({ text, color, isLoading = false, onClick }: Props) => {
 
   return (
     <button
-      className={`px-4 py-2 rounded-md  text-white z-10 font-semibold transition-colors duration-300 ease-in-out ${backgroundColor} ${hoverBackgroundColor}`}
+      className={`px-4 py-2 rounded-md h-full w-full text-white z-10 font-semibold transition-colors duration-300 ease-in-out ${backgroundColor} ${hoverBackgroundColor}`}
       disabled={isLoading}
       onClick={onClick}
     >
+      {children}
       <label className=" cursor-pointer">{isLoading ? "Carregando..." : text}</label>
     </button>
   )
