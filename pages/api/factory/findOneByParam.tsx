@@ -8,7 +8,6 @@ const factoryOneByParam = async(req: NextApiRequest, res: NextApiResponse)=>{
         await connectToMongoDB()
         try{
             const response = await Factory.findOne(req.query)
-            console.log(response)
             res.status(200).json(response)
         }catch (e){
             console.log(e)
@@ -20,7 +19,6 @@ const factoryOneByParam = async(req: NextApiRequest, res: NextApiResponse)=>{
         await connectToMongoDB()
         try{
             const response = await Factory.findOneAndUpdate(req.query)
-            console.log(response)
             res.status(200).json(response)
         }catch (e){
             console.log(e)

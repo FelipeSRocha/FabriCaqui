@@ -50,13 +50,11 @@ const FormMap = ({ list = [], distance, center }: props) => {
             zoom={zoom()}
         >
             {list.map(({ location: { coordinates }, ...rest }, index) => (
-                <div className="hover:bg-red-700 z-10">
-                    <MarkerF
-                        position={{ lat: coordinates[1], lng: coordinates[0] }}
-                        key={index}
-                        onClick={()=>console.log(rest)}
-                    />
-                </div>
+                <MarkerF
+                    position={{ lat: coordinates[1], lng: coordinates[0] }}
+                    key={`marker-${index}`}
+                    onClick={() => console.log(rest)}
+                />
             ))}
             {/* <Circle center={center} radius={distance * 1000} key={'map'}/> */}
         </GoogleMap>

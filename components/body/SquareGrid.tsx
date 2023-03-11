@@ -1,13 +1,14 @@
 import Image from "next/image"
 import Link from "next/link"
+import { factory } from "../../utils/types/types"
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ")
 }
 
-const SquareGrid = ({ factory }: any) => {
+const SquareGrid = ({ factory, key }: {factory:factory, key:number}) => {
   return (
-    <div className="flex items-center justify-center w-full min-w-[220px] max-w-[500px] h-[300px] p-4 border-purple-main border-[1px] cursor-pointer" onClick={()=>console.log(factory)}>
+    <div key={key} className="flex items-center justify-center w-full min-w-[220px] max-w-[500px] h-[300px] p-4 border-purple-main border-[1px] cursor-pointer" onClick={()=>console.log(factory)}>
       <div className="flex flex-col md:flex-row w-full h-full gap-4">
         {/* TODO
         <div className="w-full h-1/2 md:w-80 md:h-full">
