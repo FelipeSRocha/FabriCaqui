@@ -40,7 +40,6 @@ const factoryManager = async (req: NextApiRequest, res: NextApiResponse) => {
             const response = await Factory.deleteOne(
                 {_id}
             )
-            console.log(response)
             res.status(200).json(response)
         } catch (e) {
             res.status(400).json(e)

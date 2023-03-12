@@ -129,9 +129,6 @@ const FormMultiSelect = ({ options, onChange, defaultValue }: SelectProps) => {
         </div>
     )
 }
-const DeletePopup = () => {
-    return <div></div>
-}
 const FormEmpresa = ({
     factory = null,
     session,
@@ -140,15 +137,16 @@ const FormEmpresa = ({
     session: session
 }) => {
     const router = useRouter()
-    const { data: categories } = useQuery("category", () =>
-        RESTAPI("category/category")
+    const { data: categories, isLoading: isLoadingCategories } = useQuery(
+        "category",
+        () => RESTAPI("category/category")
     )
     const [formData, setFormData] = useState<factory>(() => {
         if (factory === null) {
             return {
                 general: {},
                 address: {},
-                category: "",
+                category: "Outros",
                 location: {},
                 // products: {},
                 emailUser: session.user.email,
@@ -161,7 +159,7 @@ const FormEmpresa = ({
     const [newChanges, setNewChanges] = useState<Boolean>(false)
     const [addressChanges, setaddressChanges] = useState<Boolean>(false)
     const [cepFilled, setCepFilled] = useState<Boolean>(
-        formData.address.cep != undefined
+        formData?.address?.cep != undefined
     )
     const [location, setLocation] = useState<coordType>(
         formData?.location?.coordinates
@@ -325,40 +323,27 @@ const FormEmpresa = ({
     }, [formData])
     return (
         <div className={`w-full overflow-scroll border-2 border-transparent`}>
-            <DeletePopup></DeletePopup>
             <div
                 className={`max-w-5xl w-full h-fit flex flex-col lg:w-3/4 lg:left-[15%] relative gap-x-4 pb-40 pt-10`}
-            >
-                {factory != null && (
-                    <>
-                        {/* Tags  */}
-                        <FormWrapper>
-                            <FormHeader>Categoria</FormHeader>
-                            <FormContainer>
-                                <FormLabel>Lista de Categorias:</FormLabel>
-                                <FormMultiSelect
-                                    options={categories}
-                                    onChange={(newValue) =>
-                                        orch.category(newValue)
-                                    }
-                                    defaultValue={formData.category}
-                                    // value={formData?.general?.factoryName}
-                                ></FormMultiSelect>
-                            </FormContainer>
-                        </FormWrapper>
-                        <FormDivider />
-
-                        {/* Produtos  */}
-                        {/* <FormWrapper>
-                            <FormHeader>Produtos</FormHeader>
-                            <FormContainer>
-                                <FormLabel>Lista de Produtos:</FormLabel>
-                                <div className="w-full md:w-3/4"></div>
-                            </FormContainer>
-                        </FormWrapper>
-                        <FormDivider /> */}
-                    </>
-                )}
+            >  
+                {/* Category  */}
+                <FormWrapper>
+                    <FormHeader>Categoria</FormHeader>
+                    <FormContainer>
+                        <FormLabel>Lista de Categorias:</FormLabel>
+                        {isLoadingCategories ? (
+                            <FormText>Carregando</FormText>
+                        ) : (
+                            <FormMultiSelect
+                                options={categories}
+                                onChange={(newValue) => orch.category(newValue)}
+                                defaultValue={formData.category}
+                                // value={formData?.general?.factoryName}
+                            ></FormMultiSelect>
+                        )}
+                    </FormContainer>
+                </FormWrapper>
+                <FormDivider />
 
                 {/* Informações Gerais  */}
                 <FormWrapper>
@@ -516,7 +501,7 @@ const FormEmpresa = ({
                         </>
                     )}
 
-                    {formData.location.coordinates && (
+                    {formData?.location?.coordinates && (
                         <FormContainer>
                             <div className="w-full h-80 rounded-lg overflow-hidden">
                                 <FormMap location={location}></FormMap>
