@@ -1,5 +1,5 @@
 import {User} from "../../../mongoose/model/User"
-import {connectToMongoDB} from "../../../utils/connectToMongoDB"
+import {closeConnection, connectToMongoDB} from "../../../utils/connectToMongoDB"
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 const newUser = async(req: NextApiRequest, res: NextApiResponse)=>{
@@ -12,6 +12,6 @@ const newUser = async(req: NextApiRequest, res: NextApiResponse)=>{
         console.log(e)
         res.status(400).json("error")
     }
-
+    // closeConnection()
 }
 export default newUser

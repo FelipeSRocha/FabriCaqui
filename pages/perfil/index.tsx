@@ -9,7 +9,7 @@ import MainMap from "../../components/Maps/MainMap"
 import { coordType } from "../../components/Maps/MainMap"
 import ProfileFactorySearch from "../../components/body/ProfileFactorySearch"
 import ProfileGrid from "../../components/body/ProfileGrid"
-import MainFooter from "../../components/body/MainFooter"
+import MainFooter from "../../components/body/MapFooter"
 import RESTAPI from "../../utils/rest"
 import { useQuery } from "react-query"
 
@@ -40,7 +40,7 @@ const Perfil = ({ session }: any) => {
     error,
     data: factoryByEmail,
   } = useQuery("user", () => {
-    return RESTAPI(`factory/factoryByParam?email=${session?.user?.email}`)
+    return RESTAPI(`factory/findManyByParam?email=${session?.user?.email}`)
   })
 
   const invertMobileState = () => {
@@ -59,18 +59,7 @@ const Perfil = ({ session }: any) => {
             {!isLoading && <ProfileGrid factoryByEmail={factoryByEmail} />}
           </div>
         </div>
-        {/* <div
-          className={`md:w-2/6 md:block ${
-            MobileState ? "block" : "hidden"
-          } w-screen `}
-        >
-          <MainMap list={list} />
-        </div> */}
       </div>
-      {/* <MainFooter
-        MobileState={MobileState}
-        invertMobileState={invertMobileState}
-      /> */}
     </MainBody>
   )
 }

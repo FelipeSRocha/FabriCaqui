@@ -30,7 +30,6 @@ export interface formValuesType {
   }
 }
 
-
 const CadastroFormEmpresa = () => {
   const nullValues = {
     factoryName: "",
@@ -164,7 +163,7 @@ const CadastroFormEmpresa = () => {
       location: { coordinates: [location.lng, location.lat], type: "Point" },
     }
     try {
-      const response = await RESTAPI('factory/factory', 'POST', payload)
+      const response = await RESTAPI("factory/factory", "POST", payload)
       if (response.error) {
         alert("Tivemos um problema cadastrando sua empresa")
       } else {
