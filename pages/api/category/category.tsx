@@ -14,7 +14,7 @@ const category = async (req: NextApiRequest, res: NextApiResponse) => {
             console.log(e)
             res.status(400).json(e)
         }finally{
-            closeConnection()
+            // closeConnection()
         }
         return
     }

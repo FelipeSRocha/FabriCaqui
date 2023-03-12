@@ -17,6 +17,6 @@ const factoryByParam = async(req: NextApiRequest, res: NextApiResponse)=>{
         return
     }
     res.status(400)
-    closeConnection()
+    // closeConnection()
 }
 export default factoryByParam

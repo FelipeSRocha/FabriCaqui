@@ -47,6 +47,6 @@ const factoryManager = async (req: NextApiRequest, res: NextApiResponse) => {
         }
         return
     }
-    closeConnection()
+    // closeConnection()
 }
 export default factoryManager

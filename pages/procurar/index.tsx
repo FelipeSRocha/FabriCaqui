@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import HeaderBar from "../../components/body/header"
 import MainBody from "../../components/body/MainBody"
 import MainFilter from "../../components/body/MainFilter"
@@ -24,21 +24,29 @@ export interface orch {
 }
 
 export default function Categorias({
-    factories = [],
+    // factories = [],
     filters = { city: "São Paulo", category: "", distance: 100 },
-    center = {
-        lat: -23.550436616929904,
-        lng: -46.63392469525722,
-    },
-}: {
+}: // center = {
+//     lat: -23.550436616929904,
+//     lng: -46.63392469525722,
+// },
+{
     factories: factory[]
     filters: SearchFilter
     center: coordType
 }) {
+    const { data, isLoading: isLoadingFactories } = useQuery("factories", () =>
+        RESTAPI(
+            `factory/findManyByLocation?city=${filters.city}&category=${filters.category}&distance=${filters.distance}`
+        )
+    )
     const [MobileState, setMobileState] = useState<Boolean>(false)
-    const [centerMap, setCenterMap] = useState<coordType>(center)
+    const [centerMap, setCenterMap] = useState<coordType>({
+        lat: -23.550436616929904,
+        lng: -46.63392469525722,
+    })
     const [filterState, setFilterState] = useState<Search>(filters)
-    const [factory, setFactory] = useState<factory[]>(factories)
+    const [factory, setFactory] = useState<factory[]>([])
     const orch: orch = {
         city: (city) => {
             let newSearchState = JSON.parse(JSON.stringify(filterState))
@@ -63,6 +71,12 @@ export default function Categorias({
         setFactory(factories)
         setCenterMap(center)
     }
+    useEffect(() => {
+        if (data?.factories && data?.center) {
+            setFactory(data.factories)
+            setCenterMap(data.center)
+        }
+    }, [data])
     return (
         <MainBody>
             <HeaderBar current="Procurar"></HeaderBar>
@@ -80,7 +94,11 @@ export default function Categorias({
                     } w-screen`}
                 >
                     <div className="shadow-xl shadow-gray-400 w-full h-full z-10 bg-gray-50 p-4  flex flex-col gap-4">
-                        <MainGrid factories={factory} />
+                        {isLoadingFactories ? (
+                            <div>Carregando</div>
+                        ) : (
+                            <MainGrid factories={factory} />
+                        )}
                     </div>
                 </div>
                 <div
@@ -105,13 +123,13 @@ export default function Categorias({
 
 export async function getServerSideProps(context: any) {
     const { city = "São Paulo", category = "", distance = 100 } = context.query
-    const { data: factories, center } = await RESTAPIBACK(
-        `factory/findManyByLocation?city=${city}&category=${category}&distance=${distance}`
-    )
+    // const { data: factories, center } = await RESTAPIBACK(
+    //     `factory/findManyByLocation?city=${city}&category=${category}&distance=${distance}`
+    // )
     return {
         props: {
-            factories,
-            center,
+            // factories,
+            // center,
             filters: { city, category, distance },
         },
     }

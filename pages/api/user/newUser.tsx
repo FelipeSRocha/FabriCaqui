@@ -12,6 +12,6 @@ const newUser = async(req: NextApiRequest, res: NextApiResponse)=>{
         console.log(e)
         res.status(400).json("error")
     }
-    closeConnection()
+    // closeConnection()
 }
 export default newUser

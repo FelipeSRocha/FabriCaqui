@@ -26,7 +26,7 @@ const FactoryLocation = async (req: NextApiRequest, res: NextApiResponse) => {
     const { lat, lng } = result.results[0].geometry.location
 
     let params
-    if (category && category !=null) {
+    if (category && category != null) {
         params = {
             location: {
                 $near: {
@@ -52,8 +52,8 @@ const FactoryLocation = async (req: NextApiRequest, res: NextApiResponse) => {
             },
         }
     }
-    const data = await Factory.find(params)
-    res.status(200).json({data, center:{lat, lng}})
-    closeConnection()
+    const factories = await Factory.find(params)
+    res.status(200).json({ factories, center: { lat, lng } })
+    // closeConnection()
 }
 export default FactoryLocation

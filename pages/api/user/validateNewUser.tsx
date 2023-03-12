@@ -10,7 +10,7 @@ const validateNewUser = async(req: NextApiRequest, res: NextApiResponse) => {
     }else{
         res.status(200).json(true)
     }
-    closeConnection()
+    // closeConnection()
 }
 
 export default validateNewUser
