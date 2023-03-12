@@ -65,7 +65,7 @@ export default function Categorias({
         },
     }
     const handleUpdate = async () => {
-        const { data: factories, center } = await RESTAPI(
+        const { factories, center } = await RESTAPI(
             `factory/findManyByLocation?city=${filterState.city}&category=${filterState.category}&distance=${filterState.distance}`
         )
         setFactory(factories)
