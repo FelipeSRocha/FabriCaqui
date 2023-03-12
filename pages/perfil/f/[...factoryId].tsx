@@ -8,6 +8,8 @@ import { useQuery } from "react-query"
 import RESTAPI from "../../../utils/rest"
 import { useEffect } from "react"
 import { factory, session } from "../../../utils/types/types"
+import { connectToMongoDB } from "../../../utils/connectToMongoDB"
+import { Factory } from "../../../mongoose/model/Factory"
 
 const editFactory = ({ session, factory }: {session: session, factory: factory}) => {
     return (
@@ -33,7 +35,8 @@ export async function getServerSideProps(context: any) {
         }
     }
     const { factoryId } = context.params
-    const factory = await RESTAPIBACK(`factory/findOneByParam?_id=${factoryId}`)
+    await connectToMongoDB()
+    const factory = await Factory.findOne({_id:factoryId})
     if (session.user?.email != factory.emailUser) {
         return {
             redirect: {
