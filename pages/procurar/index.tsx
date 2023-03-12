@@ -24,9 +24,12 @@ export interface orch {
 }
 
 export default function Categorias({
-    factories,
-    filters,
-    center,
+    factories = [],
+    filters = { city: "São Paulo", category: "", distance: 100 },
+    center = {
+        lat: -23.550436616929904,
+        lng: -46.63392469525722,
+    },
 }: {
     factories: factory[]
     filters: SearchFilter
@@ -53,24 +56,6 @@ export default function Categorias({
             setFilterState(newSearchState)
         },
     }
-    const list: coordType[] = [
-        {
-            lat: -23.550237,
-            lng: -46.633951,
-        },
-        {
-            lat: -23.550337,
-            lng: -46.633941,
-        },
-        {
-            lat: -23.550237,
-            lng: -46.633911,
-        },
-        {
-            lat: -23.550447,
-            lng: -46.6331951,
-        },
-    ]
     const handleUpdate = async () => {
         const { data: factories, center } = await RESTAPI(
             `factory/findManyByLocation?city=${filterState.city}&category=${filterState.category}&distance=${filterState.distance}`
