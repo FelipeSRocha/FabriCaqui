@@ -21,9 +21,10 @@ interface props {
     list: factory[]
     distance: number
     center: { lat: number; lng: number }
+    detailCenterMap: { lat: number; lng: number }|undefined
 }
 
-const FormMap = ({ list = [], distance, center }: props) => {
+const FormMap = ({ list = [], distance, center, detailCenterMap }: props) => {
     const { isLoaded } = useJsApiLoader({
         id: "google-map-script",
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY
@@ -46,8 +47,8 @@ const FormMap = ({ list = [], distance, center }: props) => {
     return isLoaded ? (
         <GoogleMap
             mapContainerStyle={containerStyle}
-            center={center}
-            zoom={zoom()}
+            center={detailCenterMap||center}
+            zoom={detailCenterMap?15:zoom()}
         >
             {list.map(({ location: { coordinates }, ...rest }, index) => (
                 <MarkerF

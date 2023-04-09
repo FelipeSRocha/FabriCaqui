@@ -18,13 +18,13 @@ const factoryManager = async (req: NextApiRequest, res: NextApiResponse) => {
         return
     }
     if (req.method === "PUT") {
-        const { address, catalog, category, general, location, _id } =
+        const { address, catalog, category, general, location, _id, subCategories } =
             JSON.parse(JSON.stringify(req.body))
         await connectToMongoDB()
         try {
             const response = await Factory.findByIdAndUpdate(
                 _id,
-                { $set: { address, catalog, category, general, location } },
+                { $set: { address, catalog, category, general, location, subCategories } },
                 { new: true }
             )
             res.status(200).json(response)
