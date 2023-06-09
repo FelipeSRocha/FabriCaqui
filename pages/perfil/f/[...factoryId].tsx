@@ -48,7 +48,7 @@ export async function getServerSideProps(context: any) {
     return {
         props: {
             session,
-            factory: factory,
+            factory: JSON.parse(JSON.stringify(factory)),
         },
     }
 }

@@ -8,7 +8,6 @@ const factoryByParam = async(req: NextApiRequest, res: NextApiResponse)=>{
         await connectToMongoDB()
         try{
             const response = await Factory.find(req.query)
-            console.log(response)
             res.status(200).json(response)
         }catch (e){
             console.log(e)

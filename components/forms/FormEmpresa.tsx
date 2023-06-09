@@ -1,10 +1,11 @@
 import { ChangeEvent, ReactNode, useState, useRef, useEffect } from "react"
-import verifyFactoryForm from "../../utils/verifyFactoryForm"
+import {verifyFactoryForm, verifyCorrectForm } from "../../utils/verifyFactoryForm"
 import DefaultButton from "../button/DefaultButton"
 import { coordType } from "../Maps/MainMap"
 import FormMap from "../Maps/FormMap"
 import { factory, session } from "../../utils/types/types"
 import ArrowDropDownCircleIcon from "@mui/icons-material/ArrowDropDownCircle"
+import CloseIcon from "@mui/icons-material/Close"
 import RESTAPI from "../../utils/rest"
 import { useQuery } from "react-query"
 import { isValidCEP } from "../../utils/verifyString"
@@ -17,11 +18,22 @@ interface orch {
     address: (arg0: string, arg1: string) => void
     category: (arg1: string) => void
     location: (value: { lat: number; lng: number }) => void
+    addcategory:(inputValue:String)=>void
+    removecategory:(inputValue:String)=>void
 }
 interface SelectProps {
     options: string[]
     onChange: (value: string) => void
     defaultValue?: string
+}
+interface Subcategory {
+    id: number
+    name: string
+}
+interface FormMultiInput {
+    addSubcategory:(inputValue:String)=>void
+    removeSubcategory:(inputValue:String)=>void
+    subCategories:[String]
 }
 const FormWrapper = ({ children }: { children: ReactNode }) => {
     return (
@@ -129,9 +141,50 @@ const FormMultiSelect = ({ options, onChange, defaultValue }: SelectProps) => {
         </div>
     )
 }
-const DeletePopup = () => {
-    return <div></div>
+const FormMultiInput = ({addSubcategory, removeSubcategory, subCategories}:FormMultiInput) => {
+    const [inputValue, setInputValue] = useState("")
+    return (
+        <div className="text-md w-full border-2 border-gray-200 rounded-lg p-2 text-gray-600 md:w-3/4 relative">
+            <div className="flex items-center flex-wrap">
+                {subCategories.map((subcategory,index) => (
+                    <div
+                        key={index}
+                        className="bg-gray-200 p-1 pl-2 pr-2 rounded-md mr-2 flex items-center"
+                    >
+                        <span className="mr-2">{subcategory}</span>
+                        <button
+                            onClick={() => removeSubcategory(subcategory)}
+                            className="bg-red-500 text-white px-1 py-0.5 rounded-md"
+                        >
+                            <CloseIcon />
+                        </button>
+                    </div>
+                ))}
+            </div>
+            <div className="flex items-center">
+                <input
+                    type="text"
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    className="w-full px-3 py-1 border-0 rounded-md"
+                    placeholder="Digite a subcategoria"
+                    style={{ flexGrow: 1 }}
+                />
+
+                <div className="px-4 py-2 rounded-md ml-2">
+                    <DefaultButton
+                        text={"Adicionar"}
+                        onClick={()=>{
+                            setInputValue("")
+                            addSubcategory(inputValue)}}
+                        color={"confirm"}
+                    ></DefaultButton>
+                </div>
+            </div>
+        </div>
+    )
 }
+
 const FormEmpresa = ({
     factory = null,
     session,
@@ -140,15 +193,17 @@ const FormEmpresa = ({
     session: session
 }) => {
     const router = useRouter()
-    const { data: categories } = useQuery("category", () =>
-        RESTAPI("category/category")
+    const { data: categories, isLoading: isLoadingCategories } = useQuery(
+        "category",
+        () => RESTAPI("category/category")
     )
     const [formData, setFormData] = useState<factory>(() => {
         if (factory === null) {
             return {
                 general: {},
                 address: {},
-                category: "",
+                category: "Outros",
+                subCategories: [],
                 location: {},
                 // products: {},
                 emailUser: session.user.email,
@@ -161,7 +216,7 @@ const FormEmpresa = ({
     const [newChanges, setNewChanges] = useState<Boolean>(false)
     const [addressChanges, setaddressChanges] = useState<Boolean>(false)
     const [cepFilled, setCepFilled] = useState<Boolean>(
-        formData.address.cep != undefined
+        formData?.address?.cep != undefined
     )
     const [location, setLocation] = useState<coordType>(
         formData?.location?.coordinates
@@ -207,8 +262,26 @@ const FormEmpresa = ({
             setNewChanges(true)
             setaddressChanges(false)
         },
+        addcategory: (inputValue:String)=>{
+            let newFormData = JSON.parse(JSON.stringify(formData))
+            if (inputValue) {
+                newFormData.subCategories = [
+                    ...newFormData.subCategories,
+                    inputValue,
+                ]
+                setFormData(newFormData)
+                setNewChanges(true)
+            }   
+        },
+        removecategory: (inputValue:String)=>{
+            let newFormData = JSON.parse(JSON.stringify(formData))
+            if (inputValue) {
+                newFormData.subCategories = newFormData.subCategories.filter((subcategory:String) => subcategory !== inputValue)
+                setFormData(newFormData)
+                setNewChanges(true)
+            }   
+        }
     }
-
     const handleCepFilled = async () => {
         if (isValidCEP(formData.address.cep)) {
             let CEP: string = formData.address.cep
@@ -270,8 +343,9 @@ const FormEmpresa = ({
         setLocation(data.results[0].geometry.location)
     }
     const handleSave = async () => {
-        if (verifyFactoryForm(formData)) {
+        if (verifyCorrectForm(formData)) {
             const payload = JSON.parse(JSON.stringify(formData))
+            console.log(payload)
             try {
                 if (factory === null) {
                     const data = await RESTAPI(
@@ -280,7 +354,8 @@ const FormEmpresa = ({
                         payload
                     )
                     if (data._id) {
-                        router.push(`/perfil`)
+                        alert("Empresa Cadastrada com Sucesso!")
+                        // router.push(`/perfil`)
                         return
                     }
                     alert("Não foi cadastrar sua empresa")
@@ -302,7 +377,6 @@ const FormEmpresa = ({
             }
             return
         }
-        alert("Dados preenchidos de forma inválida")
     }
     const handleDelete = async () => {
         if (
@@ -325,40 +399,31 @@ const FormEmpresa = ({
     }, [formData])
     return (
         <div className={`w-full overflow-scroll border-2 border-transparent`}>
-            <DeletePopup></DeletePopup>
             <div
                 className={`max-w-5xl w-full h-fit flex flex-col lg:w-3/4 lg:left-[15%] relative gap-x-4 pb-40 pt-10`}
             >
-                {factory != null && (
-                    <>
-                        {/* Tags  */}
-                        <FormWrapper>
-                            <FormHeader>Categoria</FormHeader>
-                            <FormContainer>
-                                <FormLabel>Lista de Categorias:</FormLabel>
-                                <FormMultiSelect
-                                    options={categories}
-                                    onChange={(newValue) =>
-                                        orch.category(newValue)
-                                    }
-                                    defaultValue={formData.category}
-                                    // value={formData?.general?.factoryName}
-                                ></FormMultiSelect>
-                            </FormContainer>
-                        </FormWrapper>
-                        <FormDivider />
-
-                        {/* Produtos  */}
-                        {/* <FormWrapper>
-                            <FormHeader>Produtos</FormHeader>
-                            <FormContainer>
-                                <FormLabel>Lista de Produtos:</FormLabel>
-                                <div className="w-full md:w-3/4"></div>
-                            </FormContainer>
-                        </FormWrapper>
-                        <FormDivider /> */}
-                    </>
-                )}
+                {/* Category  */}
+                <FormWrapper>
+                    <FormHeader>Categoria</FormHeader>
+                    <FormContainer>
+                        <FormLabel>Lista de Categorias:</FormLabel>
+                        {isLoadingCategories ? (
+                            <FormText>Carregando</FormText>
+                        ) : (
+                            <FormMultiSelect
+                                options={categories}
+                                onChange={(newValue) => orch.category(newValue)}
+                                defaultValue={formData.category}
+                                // value={formData?.general?.factoryName}
+                            ></FormMultiSelect>
+                        )}
+                    </FormContainer>
+                    <FormContainer>
+                        <FormLabel>Subcategoria:</FormLabel>
+                        <FormMultiInput addSubcategory={orch.addcategory} removeSubcategory={orch.removecategory} subCategories={formData.subCategories}/>
+                    </FormContainer>
+                </FormWrapper>
+                <FormDivider />
 
                 {/* Informações Gerais  */}
                 <FormWrapper>
@@ -375,7 +440,7 @@ const FormEmpresa = ({
                             value={formData?.general?.factoryName}
                         ></FormInput>
                     </FormContainer>
-                    <FormContainer>
+                    {/* <FormContainer>
                         <FormLabel>Descrição da Empresa:</FormLabel>
                         <FormTextArea
                             value={formData?.general?.description}
@@ -392,7 +457,7 @@ const FormEmpresa = ({
                                 }
                             }}
                         ></FormTextArea>
-                    </FormContainer>
+                    </FormContainer> */}
                     <FormContainer>
                         <FormLabel>CNPJ:</FormLabel>
                         <FormInput
@@ -516,7 +581,7 @@ const FormEmpresa = ({
                         </>
                     )}
 
-                    {formData.location.coordinates && (
+                    {formData?.location?.coordinates && (
                         <FormContainer>
                             <div className="w-full h-80 rounded-lg overflow-hidden">
                                 <FormMap location={location}></FormMap>

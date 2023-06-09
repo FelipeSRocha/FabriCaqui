@@ -5,7 +5,7 @@ export interface factory {
     emailUser: string
     phoneContact: string, 
     description: string ,
-    image: Buffer ,
+    // image: Buffer ,
     emailContact: string, 
   },
 
@@ -24,6 +24,7 @@ export interface factory {
     coordinates: [number,number]
   },
   category: string,
+  subCategories: [string],
   // products: [
   //   {
   //     name: string
