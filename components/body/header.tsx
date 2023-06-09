@@ -23,7 +23,7 @@ export default function HeaderBar({ current }: props) {
     ]
 
     return (
-        <Disclosure as="nav" className="bg-white border-b-2 border-purple-main">
+        <Disclosure as="nav" className="bg-white border-b-2 border-purple-main flex-none">
             {({ open }) => (
                 <>
                     <div className="mx-auto  px-2 md:px-[15%] ">
