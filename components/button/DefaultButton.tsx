@@ -36,12 +36,12 @@ const DefaultButton = ({ text, color, isLoading = false, onClick, children }: Pr
 
   return (
     <button
-      className={`px-4 py-2 rounded-md h-full w-full text-white z-10 font-semibold transition-colors duration-300 ease-in-out ${backgroundColor} ${hoverBackgroundColor}`}
+      className={`px-4 py-2 rounded-md h-full w-full text-white z-10 font-semibold transition-colors duration-300 ease-in-out flex items-center justify-center ${backgroundColor} ${hoverBackgroundColor}`}
       disabled={isLoading}
       onClick={onClick}
     >
       {children}
-      <label className=" cursor-pointer">{isLoading ? "Carregando..." : text}</label>
+      <label className=" cursor-pointer pl-2">{isLoading ? "Carregando..." : text}</label>
     </button>
   )
 }

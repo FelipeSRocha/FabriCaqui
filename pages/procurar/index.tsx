@@ -147,7 +147,6 @@ export default function Categorias({
                 </div>
                 {factoryDetail &&
                 <DetailPopup
-                    externalState={factoryDetail?true:false}
                     factoryDetail={factoryDetail}
                     setFactoryDetail={setFactoryDetail}
                 />
