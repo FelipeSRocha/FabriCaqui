@@ -224,15 +224,15 @@ const Landing = () => {
                     </div>
                 </div>
             </div>
-            <div className="w-full md:w-1/2 h-1/2 bg-white py-20">
-                <div className="my-10 md:left-[15%]  relative p-10 pb-20">
+            <div className="w-full md:w-1/2 h-1/2 bg-white">
+                <div className=" md:left-[15%]  relative p-10 pb-20">
                     <h1 className="text-6xl text-purple-main font-bold flex">
                         FabriCaqui
                     </h1>
                     <div className=" py-4">
                         <div className="w-full h-[4px] bg-gray-100"></div>
                     </div>
-                    <p className="text-2xl text-gray-800 font-medium flex">
+                    <p className="text-lg text-gray-800 font-medium flex">
                         Encontre fornecedores locais de confiança no FabriCaqui!
                         Conecte-se diretamente com os melhores fornecedores da
                         sua região, em diversas categorias de produtos e
@@ -249,7 +249,7 @@ const Landing = () => {
                     <div className=" py-4">
                         <div className="w-full h-[4px] bg-gray-100"></div>
                     </div>
-                    <p className="text-2xl text-gray-800 font-medium flex">
+                    <p className="text-lg text-gray-800 font-medium flex">
                         Olá! Eu sou Felipe, e estou muito animado em apresentar
                         a você o FabriCaqui, um projeto pessoal que nasceu da
                         minha experiência trabalhando com jardinagem e
@@ -262,7 +262,7 @@ const Landing = () => {
                     <div className=" py-4">
                         <div className="w-full h-[4px]"></div>
                     </div>
-                    <p className="text-2xl text-gray-800 font-medium flex">
+                    <p className="text-lg text-gray-800 font-medium flex">
                         Estamos comprometidos em implementar diversas
                         ferramentas inovadoras para tornar sua experiência ainda
                         melhor. Em breve, você poderá desfrutar de recursos como
@@ -273,7 +273,7 @@ const Landing = () => {
                     <div className=" py-4">
                         <div className="w-full h-[4px]"></div>
                     </div>
-                    <p className="text-2xl text-gray-800 font-medium flex">
+                    <p className="text-lg text-gray-800 font-medium flex">
                         E o melhor de tudo: manteremos o cadastro e a
                         visibilidade nos resultados de pesquisa gratuitos para
                         todos os fornecedores. Acreditamos que a colaboração é a
@@ -281,10 +281,10 @@ const Landing = () => {
                         participação de todos os negócios, independentemente do
                         tamanho ou segmento.
                     </p>
-                    <p className="text-2xl text-gray-800 font-medium flex">
+                    <p className="text-lg text-gray-800 font-medium flex">
                        Caso queira entrar em contato conosco, envie um email para:
                     </p>
-                    <a className="text-purple-secondary text-2xl font-medium flex" href="mailto:app.fabricaqui@gmail.com"> app.fabricaqui@gmail.com.</a>
+                    <a className="text-purple-secondary text-xl font-medium flex" href="mailto:app.fabricaqui@gmail.com"> app.fabricaqui@gmail.com.</a>
                 </div>
             </div>
         </div>

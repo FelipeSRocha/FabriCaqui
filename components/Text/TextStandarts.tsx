@@ -16,15 +16,15 @@ interface FormMultiInput {
 }
 
 export const Title = ({ text }: { text: string }) => (
-    <h1 className="block text-md md:text-3xl font-medium text-gray-700">{text}</h1>
-)
-
-export const TitleSecondary = ({ text }: { text: string }) => (
     <h1 className="block text-md md:text-xl font-medium text-gray-700">{text}</h1>
 )
 
+export const TitleSecondary = ({ text }: { text: string }) => (
+    <h1 className="block text-md md:text-md font-medium text-gray-700">{text}</h1>
+)
+
 export const Label = ({ text }: { text: string }) => (
-    <h1 className="block text-sm md:text-2xl font-light text-gray-700">{text}</h1>
+    <h1 className="block text-sm md:text-lg font-light text-gray-700">{text}</h1>
 )
 export const FormDivider = () => {
     return (

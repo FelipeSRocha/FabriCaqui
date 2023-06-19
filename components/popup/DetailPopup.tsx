@@ -9,7 +9,7 @@ import { FormDivider, Label, Title } from "../Text/TextStandarts"
 import DefaultButton from "../button/DefaultButton"
 
 const LabelBox = ({ children }: { children: any }) => (
-    <div className="grid grid-cols-10 md:grid-cols-6 md:gap-6 gap-1 md:p-4 px-4">
+    <div className="grid grid-cols-10 md:grid-cols-6 md:gap-6 gap-1 md:p-4 px-4 md:py-0">
         {children}
     </div>
 )
