@@ -224,7 +224,7 @@ const Landing = () => {
                     </div>
                 </div>
             </div>
-            <div className="w-1/2 h-1/2 bg-white py-20">
+            <div className="w-full md:w-1/2 h-1/2 bg-white py-20">
                 <div className="my-10 md:left-[15%]  relative p-10 pb-20">
                     <h1 className="text-6xl text-purple-main font-bold flex">
                         FabriCaqui
@@ -282,8 +282,9 @@ const Landing = () => {
                         tamanho ou segmento.
                     </p>
                     <p className="text-2xl text-gray-800 font-medium flex">
-                       Caso queira entrar em contato conosco, envie um email para  <a className="pl-2 text-purple-secondary" href="mailto:app.fabricaqui@gmail.com"> app.fabricaqui@gmail.com</a>.
+                       Caso queira entrar em contato conosco, envie um email para:
                     </p>
+                    <a className="text-purple-secondary text-2xl font-medium flex" href="mailto:app.fabricaqui@gmail.com"> app.fabricaqui@gmail.com.</a>
                 </div>
             </div>
         </div>
