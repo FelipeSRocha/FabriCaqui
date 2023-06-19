@@ -7,12 +7,18 @@ import LabelIcon from "@mui/icons-material/Label"
 import StraightenIcon from "@mui/icons-material/Straighten"
 import DefaultButton from "../button/DefaultButton"
 import { useRouter } from "next/router"
+import {
+    FormDivider,
+    Label,
+    Title,
+    TitleSecondary,
+} from "../Text/TextStandarts"
 
 interface SelectProps {
     options: string[]
     onChange: (value: string) => void
     defaultValue?: string | null
-    isLoading: boolean,
+    isLoading: boolean
 }
 interface orch {
     city: (arg0: string) => void
@@ -24,11 +30,16 @@ interface RangeProps {
     defaultValue: number
 }
 export interface SearchFilter {
-    city: string,
-    distance: number,
-    category: null|string,
+    city: string
+    distance: number
+    category: null | string
 }
-const FormMultiSelect = ({ options, onChange, defaultValue, isLoading }: SelectProps) => {
+const FormMultiSelect = ({
+    options,
+    onChange,
+    defaultValue,
+    isLoading,
+}: SelectProps) => {
     const [isOpen, setIsOpen] = useState(false)
     const [selectedOption, setSelectedOption] = useState<string | null>(null)
     const handleOptionClick = (optionValue: string) => {
@@ -36,7 +47,7 @@ const FormMultiSelect = ({ options, onChange, defaultValue, isLoading }: SelectP
         setIsOpen(false)
         onChange(optionValue)
     }
-    if (isLoading||!options.length) {
+    if (isLoading || !options.length) {
         return <h1>Carregando...</h1>
     }
     return (
@@ -108,12 +119,13 @@ const FormLabel = ({ children }: { children: ReactNode }) => {
 }
 const Landing = () => {
     const router = useRouter()
-    const { data: categories=[], isLoading: isLoadingCategories } = useQuery("category", () =>
-        RESTAPI("category/category")
+    const { data: categories = [], isLoading: isLoadingCategories } = useQuery(
+        "category",
+        () => RESTAPI("category/category")
     )
 
     const [searchState, setSearchState] = useState<SearchFilter>({
-        city: 'São Paulo',
+        city: "São Paulo",
         distance: 100,
         category: null,
     })
@@ -212,9 +224,67 @@ const Landing = () => {
                     </div>
                 </div>
             </div>
-            <div className="w-full h-1/2 bg-white py-20">
-                <div className="my-10 md:left-[15%] text-3xl text-purple-main relative">
-                    O lugar para você achar seus fornecedores!
+            <div className="w-full md:w-1/2 h-1/2 bg-white py-20">
+                <div className="my-10 md:left-[15%]  relative p-10 pb-20">
+                    <h1 className="text-6xl text-purple-main font-bold flex">
+                        FabriCaqui
+                    </h1>
+                    <div className=" py-4">
+                        <div className="w-full h-[4px] bg-gray-100"></div>
+                    </div>
+                    <p className="text-2xl text-gray-800 font-medium flex">
+                        Encontre fornecedores locais de confiança no FabriCaqui!
+                        Conecte-se diretamente com os melhores fornecedores da
+                        sua região, em diversas categorias de produtos e
+                        serviços. Simplifique sua busca e faça negócios de forma
+                        fácil e segura. Descubra o poder da proximidade no
+                        FabriCaqui.
+                    </p>
+                    <div className=" py-4">
+                        <div className="w-full h-[4px]"></div>
+                    </div>
+                    <h1 className="text-3xl text-purple-main font-bold flex">
+                        Sobre o Site
+                    </h1>
+                    <div className=" py-4">
+                        <div className="w-full h-[4px] bg-gray-100"></div>
+                    </div>
+                    <p className="text-2xl text-gray-800 font-medium flex">
+                        Olá! Eu sou Felipe, e estou muito animado em apresentar
+                        a você o FabriCaqui, um projeto pessoal que nasceu da
+                        minha experiência trabalhando com jardinagem e
+                        cosméticos. Durante esse tempo, enfrentei inúmeras
+                        dificuldades para encontrar fornecedores confiáveis em
+                        outros sites, o que me motivou a criar essa plataforma
+                        exclusiva para ajudar a digitalizar e expandir o mercado
+                        de fornecedores no Brasil.
+                    </p>
+                    <div className=" py-4">
+                        <div className="w-full h-[4px]"></div>
+                    </div>
+                    <p className="text-2xl text-gray-800 font-medium flex">
+                        Estamos comprometidos em implementar diversas
+                        ferramentas inovadoras para tornar sua experiência ainda
+                        melhor. Em breve, você poderá desfrutar de recursos como
+                        agilização de orçamentos, chat direto com os clientes,
+                        pagamentos diretos na plataforma, além de um sistema
+                        integrado de organização e acompanhamento de pedidos.
+                    </p>
+                    <div className=" py-4">
+                        <div className="w-full h-[4px]"></div>
+                    </div>
+                    <p className="text-2xl text-gray-800 font-medium flex">
+                        E o melhor de tudo: manteremos o cadastro e a
+                        visibilidade nos resultados de pesquisa gratuitos para
+                        todos os fornecedores. Acreditamos que a colaboração é a
+                        chave para o crescimento mútuo, e queremos incentivar a
+                        participação de todos os negócios, independentemente do
+                        tamanho ou segmento.
+                    </p>
+                    <p className="text-2xl text-gray-800 font-medium flex">
+                       Caso queira entrar em contato conosco, envie um email para:
+                    </p>
+                    <a className="text-purple-secondary text-2xl font-medium flex" href="mailto:app.fabricaqui@gmail.com"> app.fabricaqui@gmail.com.</a>
                 </div>
             </div>
         </div>
