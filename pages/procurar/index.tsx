@@ -118,7 +118,7 @@ export default function Categorias({
                         MobileState ? "hidden" : "block"
                     } w-screen`}
                 >
-                    <div className="shadow-xl shadow-gray-400 w-full h-full z-10 bg-gray-50 p-4 relative flex flex-col gap-4 ">
+                    <div className=" w-full h-full z-10 bg-gray-50 p-4 relative flex flex-col gap-4 ">
                         {isLoadingFactories ? (
                             <div>Carregando</div>
                         ) : (
