@@ -19,7 +19,7 @@ const SquareGrid = ({
     return (
         <div
             key={key}
-            className="flex items-center justify-center w-full min-w-[220px] max-w-[500px] h-[200px] p-4 border-purple-main border-[1px] cursor-pointer overflow-hidden"
+            className="flex items-center justify-center w-full min-w-[220px] max-w-[500px] h-[200px] p-4 border-purple-main border-[1px] hover:shadow-xl duration-200 rounded-md cursor-pointer overflow-hidden"
             onClick={() => setDetailsValue(factory)}
         >
             <div className="flex flex-col md:flex-row w-full h-full gap-4">

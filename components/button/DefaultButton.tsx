@@ -36,7 +36,7 @@ const DefaultButton = ({ text, color, isLoading = false, onClick, children }: Pr
 
   return (
     <button
-      className={`px-4 py-2 rounded-md h-full w-full text-white z-10 font-semibold transition-colors duration-300 ease-in-out flex items-center justify-center ${backgroundColor} ${hoverBackgroundColor}`}
+      className={`px-4 py-2 rounded-md h-full w-full text-white z-10 font-semibold transition-colors duration-200 ease-in-out flex items-center justify-center hover:shadow-md ${backgroundColor} ${hoverBackgroundColor}`}
       disabled={isLoading}
       onClick={onClick}
     >

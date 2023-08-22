@@ -63,7 +63,7 @@ export default function HeaderBar({ current }: props) {
                                                     current === item.name
                                                         ? "bg-purple-main text-white font-bold"
                                                         : "text-purple-main hover:bg-purple-main hover:text-white",
-                                                    "px-6 py-2 rounded-md text-md  h-12 flex items-center"
+                                                    "px-6 py-2 rounded-md text-md  h-12 flex items-center hover:shadow-md duration-200"
                                                 )}
                                             >
                                                 {item.name}
